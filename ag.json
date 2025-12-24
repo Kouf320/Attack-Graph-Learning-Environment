@@ -1,0 +1,1504 @@
+{
+    "metadata": {
+      "name": "Test Model",
+      "langVersion": "1.0.0",
+      "langID": "org.mal-lang.Violencelang",
+      "malVersion": "0.1.0-SNAPSHOT",
+      "info": "Created by the mal-toolbox model python module."
+    },
+    "assets": {
+      "0": {
+        "name": "Has Access to Host 1",
+        "metaconcept": "Access",
+        "eid": "0",
+        "defenses": {}
+      },
+      "1": {
+        "name": "Reconnaisance Host 1",
+        "metaconcept": "Scan",
+        "eid": "1",
+        "defenses": {}
+      },
+      "2": {
+        "name": "CVE-2024-21851",
+        "metaconcept": "Vulnerability",
+        "eid": "2",
+        "defenses": {}
+      },
+      "3": {
+        "name": "Local Exploit",
+        "metaconcept": "Local",
+        "eid": "3",
+        "defenses": {}
+      },
+      "4": {
+        "name": "Root on Host:Host 1",
+        "metaconcept": "Privileges",
+        "eid": "4",
+        "defenses": {}
+      },
+      "5": {
+        "name": "Host Compromise :Host 1",
+        "metaconcept": "Host",
+        "eid": "5",
+        "defenses": {}
+      },
+      "6": {
+        "name": "CVE-2024-23109",
+        "metaconcept": "Vulnerability",
+        "eid": "6",
+        "defenses": {}
+      },
+      "7": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "7",
+        "defenses": {}
+      },
+      "8": {
+        "name": "User Privilege Escalation",
+        "metaconcept": "Privileges",
+        "eid": "8",
+        "defenses": {}
+      },
+      "9": {
+        "name": "CVE-2021-34527",
+        "metaconcept": "Vulnerability",
+        "eid": "9",
+        "defenses": {}
+      },
+      "10": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "10",
+        "defenses": {}
+      },
+      "11": {
+        "name": "Has Access to Host 2",
+        "metaconcept": "Access",
+        "eid": "11",
+        "defenses": {}
+      },
+      "12": {
+        "name": "Reconnaisance Host 2",
+        "metaconcept": "Scan",
+        "eid": "12",
+        "defenses": {}
+      },
+      "13": {
+        "name": "CVE-2021-44228",
+        "metaconcept": "Vulnerability",
+        "eid": "13",
+        "defenses": {}
+      },
+      "14": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "14",
+        "defenses": {}
+      },
+      "15": {
+        "name": "Root on Host:Host 2",
+        "metaconcept": "Privileges",
+        "eid": "15",
+        "defenses": {}
+      },
+      "16": {
+        "name": "Host Compromise :Host 2",
+        "metaconcept": "Host",
+        "eid": "16",
+        "defenses": {}
+      },
+      "17": {
+        "name": "User Privilege Escalation",
+        "metaconcept": "Privileges",
+        "eid": "17",
+        "defenses": {}
+      },
+      "18": {
+        "name": "CVE-2021-27190",
+        "metaconcept": "Vulnerability",
+        "eid": "18",
+        "defenses": {}
+      },
+      "19": {
+        "name": "Local Exploit",
+        "metaconcept": "Local",
+        "eid": "19",
+        "defenses": {}
+      },
+      "20": {
+        "name": "CVE-2021-26084",
+        "metaconcept": "Vulnerability",
+        "eid": "20",
+        "defenses": {}
+      },
+      "21": {
+        "name": "Has Access to Host 3",
+        "metaconcept": "Access",
+        "eid": "21",
+        "defenses": {}
+      },
+      "22": {
+        "name": "Reconnaisance Host 3",
+        "metaconcept": "Scan",
+        "eid": "22",
+        "defenses": {}
+      },
+      "23": {
+        "name": "CVE-2024-21851",
+        "metaconcept": "Vulnerability",
+        "eid": "23",
+        "defenses": {}
+      },
+      "24": {
+        "name": "Local Exploit",
+        "metaconcept": "Local",
+        "eid": "24",
+        "defenses": {}
+      },
+      "25": {
+        "name": "Root on Host:Host 3",
+        "metaconcept": "Privileges",
+        "eid": "25",
+        "defenses": {}
+      },
+      "26": {
+        "name": "Host Compromise :Host 3",
+        "metaconcept": "Host",
+        "eid": "26",
+        "defenses": {}
+      },
+      "27": {
+        "name": "CVE-2024-23109",
+        "metaconcept": "Vulnerability",
+        "eid": "27",
+        "defenses": {}
+      },
+      "28": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "28",
+        "defenses": {}
+      },
+      "29": {
+        "name": "User Privilege Escalation",
+        "metaconcept": "Privileges",
+        "eid": "29",
+        "defenses": {}
+      },
+      "30": {
+        "name": "CVE-2021-34527",
+        "metaconcept": "Vulnerability",
+        "eid": "30",
+        "defenses": {}
+      },
+      "31": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "31",
+        "defenses": {}
+      },
+      "32": {
+        "name": "Has Access to Host 4",
+        "metaconcept": "Access",
+        "eid": "32",
+        "defenses": {}
+      },
+      "33": {
+        "name": "Reconnaisance Host 4",
+        "metaconcept": "Scan",
+        "eid": "33",
+        "defenses": {}
+      },
+      "34": {
+        "name": "CVE-2024-21851",
+        "metaconcept": "Vulnerability",
+        "eid": "34",
+        "defenses": {}
+      },
+      "35": {
+        "name": "Local Exploit",
+        "metaconcept": "Local",
+        "eid": "35",
+        "defenses": {}
+      },
+      "36": {
+        "name": "Root on Host:Host 4",
+        "metaconcept": "Privileges",
+        "eid": "36",
+        "defenses": {}
+      },
+      "37": {
+        "name": "Host Compromise :Host 4",
+        "metaconcept": "Host",
+        "eid": "37",
+        "defenses": {}
+      },
+      "38": {
+        "name": "CVE-2024-23109",
+        "metaconcept": "Vulnerability",
+        "eid": "38",
+        "defenses": {}
+      },
+      "39": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "39",
+        "defenses": {}
+      },
+      "40": {
+        "name": "User Privilege Escalation",
+        "metaconcept": "Privileges",
+        "eid": "40",
+        "defenses": {}
+      },
+      "41": {
+        "name": "CVE-2021-34527",
+        "metaconcept": "Vulnerability",
+        "eid": "41",
+        "defenses": {}
+      },
+      "42": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "42",
+        "defenses": {}
+      },
+      "43": {
+        "name": "Has Access to Host 5",
+        "metaconcept": "Access",
+        "eid": "43",
+        "defenses": {}
+      },
+      "44": {
+        "name": "Reconnaisance Host 5",
+        "metaconcept": "Scan",
+        "eid": "44",
+        "defenses": {}
+      },
+      "45": {
+        "name": "CVE-2024-21851",
+        "metaconcept": "Vulnerability",
+        "eid": "45",
+        "defenses": {}
+      },
+      "46": {
+        "name": "Local Exploit",
+        "metaconcept": "Local",
+        "eid": "46",
+        "defenses": {}
+      },
+      "47": {
+        "name": "Root on Host:Host 5",
+        "metaconcept": "Privileges",
+        "eid": "47",
+        "defenses": {}
+      },
+      "48": {
+        "name": "Host Compromise :Host 5",
+        "metaconcept": "Host",
+        "eid": "48",
+        "defenses": {}
+      },
+      "49": {
+        "name": "CVE-2024-23109",
+        "metaconcept": "Vulnerability",
+        "eid": "49",
+        "defenses": {}
+      },
+      "50": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "50",
+        "defenses": {}
+      },
+      "51": {
+        "name": "User Privilege Escalation",
+        "metaconcept": "Privileges",
+        "eid": "51",
+        "defenses": {}
+      },
+      "52": {
+        "name": "CVE-2021-34527",
+        "metaconcept": "Vulnerability",
+        "eid": "52",
+        "defenses": {}
+      },
+      "53": {
+        "name": "Network Exploit",
+        "metaconcept": "Network",
+        "eid": "53",
+        "defenses": {}
+      }
+    },
+    "associations": [
+      {
+        "metaconcept": "DoReconOnReachableHost",
+        "association": {
+          "accesses": [
+            "0"
+          ],
+          "scans": [
+            "1"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "1"
+          ],
+          "vulns": [
+            "2"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvL",
+        "association": {
+          "vulns": [
+            "2"
+          ],
+          "lexploits": [
+            "3"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Standard",
+        "association": {
+          "privesc": [
+            "4"
+          ],
+          "compromises": [
+            "5"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "3"
+          ],
+          "privesc": [
+            "4"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "1"
+          ],
+          "vulns": [
+            "6"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "6"
+          ],
+          "nexploits": [
+            "7"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "6"
+          ],
+          "nexploits": [
+            "7"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "6"
+          ],
+          "nexploits": [
+            "7"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "6"
+          ],
+          "nexploits": [
+            "7"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "6"
+          ],
+          "nexploits": [
+            "7"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "6"
+          ],
+          "nexploits": [
+            "7"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "3"
+          ],
+          "privesc": [
+            "4"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "7"
+          ],
+          "privesc": [
+            "4"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "7"
+          ],
+          "privesc": [
+            "4"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "7"
+          ],
+          "privesc": [
+            "8"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "1"
+          ],
+          "vulns": [
+            "9"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "9"
+          ],
+          "nexploits": [
+            "10"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "3"
+          ],
+          "privesc": [
+            "8"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "3"
+          ],
+          "privesc": [
+            "4"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "10"
+          ],
+          "privesc": [
+            "4"
+          ]
+        }
+      },
+      {
+        "metaconcept": "DoReconOnReachableHost",
+        "association": {
+          "accesses": [
+            "11"
+          ],
+          "scans": [
+            "12"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "12"
+          ],
+          "vulns": [
+            "13"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "13"
+          ],
+          "nexploits": [
+            "14"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "13"
+          ],
+          "nexploits": [
+            "14"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "13"
+          ],
+          "nexploits": [
+            "14"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "13"
+          ],
+          "nexploits": [
+            "14"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "13"
+          ],
+          "nexploits": [
+            "14"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "13"
+          ],
+          "nexploits": [
+            "14"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Standard",
+        "association": {
+          "privesc": [
+            "15"
+          ],
+          "compromises": [
+            "16"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "14"
+          ],
+          "privesc": [
+            "15"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "14"
+          ],
+          "privesc": [
+            "15"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "14"
+          ],
+          "privesc": [
+            "17"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "12"
+          ],
+          "vulns": [
+            "18"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvL",
+        "association": {
+          "vulns": [
+            "18"
+          ],
+          "lexploits": [
+            "19"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "19"
+          ],
+          "privesc": [
+            "17"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "19"
+          ],
+          "privesc": [
+            "15"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "12"
+          ],
+          "vulns": [
+            "20"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvL",
+        "association": {
+          "vulns": [
+            "20"
+          ],
+          "lexploits": [
+            "19"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "19"
+          ],
+          "privesc": [
+            "15"
+          ]
+        }
+      },
+      {
+        "metaconcept": "DoReconOnReachableHost",
+        "association": {
+          "accesses": [
+            "21"
+          ],
+          "scans": [
+            "22"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvL",
+        "association": {
+          "vulns": [
+            "23"
+          ],
+          "lexploits": [
+            "24"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Standard",
+        "association": {
+          "privesc": [
+            "25"
+          ],
+          "compromises": [
+            "26"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "24"
+          ],
+          "privesc": [
+            "25"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "22"
+          ],
+          "vulns": [
+            "27"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "27"
+          ],
+          "nexploits": [
+            "28"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "27"
+          ],
+          "nexploits": [
+            "28"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "27"
+          ],
+          "nexploits": [
+            "28"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "27"
+          ],
+          "nexploits": [
+            "28"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "29"
+          ],
+          "nexploits": [
+            "23"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "27"
+          ],
+          "nexploits": [
+            "28"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "24"
+          ],
+          "privesc": [
+            "25"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "28"
+          ],
+          "privesc": [
+            "29"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "22"
+          ],
+          "vulns": [
+            "30"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "30"
+          ],
+          "nexploits": [
+            "31"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "24"
+          ],
+          "privesc": [
+            "25"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "31"
+          ],
+          "privesc": [
+            "25"
+          ]
+        }
+      },
+      {
+        "metaconcept": "DoReconOnReachableHost",
+        "association": {
+          "accesses": [
+            "32"
+          ],
+          "scans": [
+            "33"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "33"
+          ],
+          "vulns": [
+            "34"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvL",
+        "association": {
+          "vulns": [
+            "34"
+          ],
+          "lexploits": [
+            "35"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Standard",
+        "association": {
+          "privesc": [
+            "36"
+          ],
+          "compromises": [
+            "37"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "35"
+          ],
+          "privesc": [
+            "36"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "33"
+          ],
+          "vulns": [
+            "38"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "38"
+          ],
+          "nexploits": [
+            "39"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "38"
+          ],
+          "nexploits": [
+            "39"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "38"
+          ],
+          "nexploits": [
+            "39"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "38"
+          ],
+          "nexploits": [
+            "39"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "38"
+          ],
+          "nexploits": [
+            "39"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "38"
+          ],
+          "nexploits": [
+            "39"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "35"
+          ],
+          "privesc": [
+            "36"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "39"
+          ],
+          "privesc": [
+            "36"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "39"
+          ],
+          "privesc": [
+            "36"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "39"
+          ],
+          "privesc": [
+            "40"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "33"
+          ],
+          "vulns": [
+            "41"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "41"
+          ],
+          "nexploits": [
+            "42"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "35"
+          ],
+          "privesc": [
+            "40"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "35"
+          ],
+          "privesc": [
+            "36"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "42"
+          ],
+          "privesc": [
+            "36"
+          ]
+        }
+      },
+      {
+        "metaconcept": "DoReconOnReachableHost",
+        "association": {
+          "accesses": [
+            "43"
+          ],
+          "scans": [
+            "44"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "44"
+          ],
+          "vulns": [
+            "45"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvL",
+        "association": {
+          "vulns": [
+            "45"
+          ],
+          "lexploits": [
+            "46"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Standard",
+        "association": {
+          "privesc": [
+            "47"
+          ],
+          "compromises": [
+            "48"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "46"
+          ],
+          "privesc": [
+            "47"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "44"
+          ],
+          "vulns": [
+            "49"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "49"
+          ],
+          "nexploits": [
+            "50"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "49"
+          ],
+          "nexploits": [
+            "50"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "49"
+          ],
+          "nexploits": [
+            "50"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "49"
+          ],
+          "nexploits": [
+            "50"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "49"
+          ],
+          "nexploits": [
+            "50"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "49"
+          ],
+          "nexploits": [
+            "50"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "46"
+          ],
+          "privesc": [
+            "47"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "50"
+          ],
+          "privesc": [
+            "47"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "50"
+          ],
+          "privesc": [
+            "47"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "50"
+          ],
+          "privesc": [
+            "51"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ReconInit",
+        "association": {
+          "scans": [
+            "44"
+          ],
+          "vulns": [
+            "52"
+          ]
+        }
+      },
+      {
+        "metaconcept": "AvN",
+        "association": {
+          "vulns": [
+            "52"
+          ],
+          "nexploits": [
+            "53"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "46"
+          ],
+          "privesc": [
+            "51"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHLN",
+        "association": {
+          "lexploits": [
+            "46"
+          ],
+          "privesc": [
+            "47"
+          ]
+        }
+      },
+      {
+        "metaconcept": "ViHN",
+        "association": {
+          "nexploits": [
+            "53"
+          ],
+          "privesc": [
+            "47"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Reachability",
+        "association": {
+          "compromises": [
+            "5"
+          ],
+          "accesses": [
+            "21"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Reachability",
+        "association": {
+          "compromises": [
+            "5"
+          ],
+          "accesses": [
+            "11"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Reachability",
+        "association": {
+          "compromises": [
+            "16"
+          ],
+          "accesses": [
+            "21"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Reachability",
+        "association": {
+          "compromises": [
+            "26"
+          ],
+          "accesses": [
+            "32"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Reachability",
+        "association": {
+          "compromises": [
+            "0"
+          ],
+          "accesses": [
+            "37"
+          ]
+        }
+      },
+      {
+        "metaconcept": "Reachability",
+        "association": {
+          "compromises": [
+            "37"
+          ],
+          "accesses": [
+            "43"
+          ]
+        }
+      }
+    ],
+    "attackers": {
+      "54": {
+        "name": "Attacker:54",
+        "entry_points": {
+          "45": {
+            "attack_steps": [
+              "vulnerabilityExists"
+            ]
+          }
+        }
+      }
+    }
+  }
