@@ -1,8 +1,6 @@
-# Attack Graph Reinforcement Learning Environment (Isolated)
+# Attack Graph Reinforcement Learning Environment
 
 ## Project Overview
-This project is a standalone, isolated version of the **Attack Graph Reinforcement Learning Environment**. It extracts the core environment logic from the larger `DQN-AttackGraphs-Phd` codebase to provide a clean, modular API for developing and testing both Attacker and Defender agents.
-
 The environment simulates a network attack graph where nodes represent states (Reconnaissance, Vulnerabilities, Privileges, etc.) and edges represent possible transitions. The agent (Attacker) learns to navigate this graph to reach a target goal while generating realistic network alerts that can be used to train Defender systems.
 
 ## Key Features
