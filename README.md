@@ -4,9 +4,9 @@
 The environment simulates a network attack graph where nodes represent states (Reconnaissance, Vulnerabilities, Privileges, etc.) and edges represent possible transitions. The agent (Attacker) learns to navigate this graph to reach a target goal while generating realistic network alerts that can be used to train Defender systems.
 
 ## Key Features
-- **Standalone Environment:** Easy to integrate into other projects without external dependencies from the original PhD repository.
+- **Standalone Environment:** Easy to integrate into other projects without external dependencies.
 - **Realistic Alert Generation:** Built-in `AlertGenerator` that creates Suricata-style logs (Recon, Local, Network, Noise) based on agent actions.
-- **Configurable Rewards:** Uses a quantitative CVSS-based reward model for realistic scoring of exploit attempts.
+- **Configurable Rewards:** Uses a quantitative CVSS-based reward model for realistic scoring of exploit attempts. Requires local NVD Database to be configured separately.
 - **Extensible:** Support for loading custom attack graphs (`ag.json`) and configuration (`config.json`).
 - **Training & Evaluation:** Includes scripts to train new DQN models or evaluate existing ones.
 
