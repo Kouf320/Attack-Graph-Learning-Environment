@@ -1,4 +1,4 @@
-# Attack Graph Reinforcement Learning Environment
+σε# Attack Graph Reinforcement Learning Environment
 
 ## Project Overview
 The environment simulates a network attack graph where nodes represent states (Reconnaissance, Vulnerabilities, Privileges, etc.) and edges represent possible transitions. The agent (Attacker) learns to navigate this graph to reach a target goal while generating realistic network alerts that can be used to train Defender systems.
@@ -89,5 +89,4 @@ next_state, reward, alerts, done = env.step(action)
 - **Reward Logic:** Modify `rewards/RewardModel.py` to change how the agent is incentivized (e.g., higher penalties for detection).
 - **Alert Frequency:** Adjust `noise_prob` and `detection_prob` in `environment.py` or the `ag.json` node attributes to control the volume of IDS logs.
 
-## Credits
-This standalone environment is derived from the **DQN-AttackGraphs-Phd** project, designed for cybersecurity research involving Deep Reinforcement Learning.
+
