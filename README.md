@@ -1,4 +1,4 @@
-σε# Attack Graph Reinforcement Learning Environment
+# Attack Graph Reinforcement Learning Environment
 
 ## Project Overview
 The environment simulates a network attack graph where nodes represent states (Reconnaissance, Vulnerabilities, Privileges, etc.) and edges represent possible transitions. The agent (Attacker) learns to navigate this graph to reach a target goal while generating realistic network alerts that can be used to train Defender systems.
