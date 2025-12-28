@@ -15,7 +15,7 @@ from utils.Alert import AlertGenerator
 from utils.Colors import BColors
 import re
 import logging
-from rewards.RewardModel import RewardModel, DefaultRewardModel
+from rewards.attacker.RewardModel import RewardModel, DefaultRewardModel
 
 
 def load_config(path='config.json'):
@@ -44,6 +44,8 @@ class GraphEnvironment:
         self.NON_ACTION_VALUE = env_config['NON_ACTION_VALUE']['value']
         self.NVD_KEY = env_config['NVD_KEY']['value']
         self.DATABASE_PATH = env_config['DATABASE_PATH']['value']
+        
+        self.defensive_action_history = []
 
         self.removed_edges = []
         
@@ -56,7 +58,28 @@ class GraphEnvironment:
         self.vuln_met = 0
         self.total_vuln = 0
 
-        self.graph, self.adjacency_matrix, self.name_to_id_map = self.initialize_from_json() #NetworkX graph
+        # Moved adjaceny matrix to line 70 due to a new function
+        self.graph, _, self.name_to_id_map = self.initialize_from_json() #NetworkX graph
+
+        # Masking System that freeze node order so matric indeces are consistent
+
+        self.node_list = list(self.graph.nodes())
+        self.node_to_idx = {node: i for i, node in enumerate(self.node_list)}
+        self.num_nodes = len(self.node_list)
+
+        # creats the base adjacency matrix (a static reference for the drl part)
+        # we employ a dense float array for the base weights/distances
+        self.base_adjacency = nx.adjacency_matrix(self.graph, nodelist=self.node_list).todense().astype(float)
+
+        # initialization of Masks (1 = Active, 0 = Inactive/Removed)
+        self.node_mask = np.ones(self.num_nodes, dtype=int)
+        self.edge_mask = np.ones((self.num_nodes, self.num_nodes), dtype=int)
+
+        self.adjacency_matrix = self._compute_masked_adjacency()
+        
+        self._update_graph_state() # Initial update
+
+
         self._update_graph_state()
 
 
@@ -100,6 +123,10 @@ class GraphEnvironment:
         self.current_node = self.nodes[0]
         self.current_alert_group = []
 
+        self.defensive_action_history = [] 
+        
+        self.reset_mask()
+
         self.vuln_met = 0
 
         return self.current_node
@@ -137,12 +164,26 @@ class GraphEnvironment:
 
         next_node = action
 
+        curr_idx = self.node_to_idx.get(self.current_node)
+        next_idx = self.node_to_idx.get(next_node)
+
+        is_valid_move = False
+        
+        if curr_idx is not None and next_idx is not None:
+            # we must check if both nodes are active
+
+            if self.node_mask[curr_idx] == 1 and self.node_mask[next_idx] == 1:
+                # edge exists in the base graph AND is active in the mask
+                # serious headache demands serious comments
+                if self.base_adjacency[curr_idx, next_idx] > 0 and self.edge_mask[curr_idx, next_idx] == 1:
+                    is_valid_move = True
+
         self.current_alert = ""
         new_state_information = []
 
-        if next_node not in self.graph[self.current_node]:
-            # If action (next_node) is not a valid successor, end the episode
-            return self.current_node, -1000, self.current_alert, True  # High negative reward for invalid action
+        if not is_valid_move:
+            # if in action (next_node) there is not a valid successor, end the episode
+            return self.current_node, -1000, self.current_alert, True  
         
         
         if self.graph.nodes[str(self.current_node)]['name'].startswith("Reconnaisance"):
@@ -458,9 +499,7 @@ class GraphEnvironment:
                 color = '#f1c40f'
                 node_size = max(node_size, 30)
                 
-            # *** MODIFIED LINE ***
-            # Add the 'label=node_name' parameter to make the name always visible.
-            # The 'title' property is kept for the detailed hover tooltip.
+
             net.add_node(node_id, label=node_name, title=node_title, size=node_size, color=color)
 
         for u_node, v_node in self.graph.edges():
@@ -673,31 +712,60 @@ class GraphEnvironment:
         return None, None
 
     def extract_cve_from_node_name(self, node_name):
+
         match = re.search(r'(CVE-\d{4}-\d{4,7})', node_name, re.IGNORECASE)
+
         return match.group(1) if match else None
 
     def find_node_ids_by_names(self, target_names: list):
+
         return [self.name_to_id_map.get(name) for name in target_names]
 
+    def get_adjacency_bitmap(self, binary=False):
+
+        current_matrix = self._compute_masked_adjacency()
+        
+        if binary:
+            return (current_matrix > 0).astype(int)
+        return np.array(current_matrix)
+    
+    def reset_mask(self):
+        # reset masks to full visibility (--> ALL 1 TRUE)
+        self.node_mask.fill(1)
+        self.edge_mask.fill(1)
+
+        self.removed_edges = [] 
+        self.adjacency_matrix = self._compute_masked_adjacency()
+        
+        return self.set_current_node(self.nodes[0])
+
+    def _compute_masked_adjacency(self):
+
+        # element multiplication to apply the edge mask
+        masked = np.multiply(self.base_adjacency, self.edge_mask)
+        
+        # Keep in mind that if a node is 0, all its rows/cols become 0
+        # REUSLT: 2D mask from the 1D node mask
+        node_mask_2d = np.outer(self.node_mask, self.node_mask)
+        
+        final_matrix = np.multiply(masked, node_mask_2d)
+        return final_matrix
 
     def apply_action(self, action_id, **kwargs):
-        """Dispatcher for all defensive actions."""
+
         if action_id == 0:
             return self._action_do_nothing()
         elif action_id == 1:
-            return self._action_network_analysis(**kwargs)
-        elif action_id == 2:
             return self._action_network_filtering(**kwargs)
-        elif action_id == 3:
+        elif action_id == 2:
             return self._action_restore_software(**kwargs)
-        # NEW: Added Action 4
-        elif action_id == 4:
+        elif action_id == 3:
             return self._action_restore_network_connection(**kwargs)
         else:
             return {"status": "error", "message": f"Invalid action ID: {action_id}"}
 
 
-    # This section Refers to the Agents Actions and how these affect the environment 
+    # This section Refers to the Agents Actions and how these affect the RL environment 
 
     # ACTION 0
     def _action_do_nothing(self):
@@ -707,77 +775,114 @@ class GraphEnvironment:
 
         return {"status": "success", "action": "Do Nothing", "changes": 0}
 
-    # # ACTION 1 
-    def _action_network_filtering(self, source_ip, dest_ip):
+    # ACTION 1 
+    def _action_network_filtering(self, source_node, dest_node):
 
-        print(f"Action applied: Network Filtering between {source_ip} and {dest_ip}.")
-        analysis_result = self._action_network_analysis(source_ip=source_ip, dest_ip=dest_ip)
-        paths_to_block = analysis_result.get("potential_paths", [])
-        
-        if not paths_to_block:
-            return {"status": "failure", "message": f"No direct reachability path found from {source_ip} to {dest_ip}."}
-        
+        print(f"Action applied: Network Filtering (Masking) between {source_node} and {dest_node}.")
+        status = "failed"
         changes_count = 0
+        
+        u_idx = self.node_to_idx.get(source_node)
+        v_idx = self.node_to_idx.get(dest_node)
 
-        for path in paths_to_block:
-            u, v = path['from_node_id'], path['to_node_id']
-
-            if self.graph.has_edge(u, v):
-                edge_data = self.graph.get_edge_data(u, v)
-                self.removed_edges.append((u, v, edge_data))
+        if u_idx is not None and v_idx is not None:
+            
+            if self.base_adjacency[u_idx, v_idx] > 0 and self.edge_mask[u_idx, v_idx] == 1:
                 
-                self.graph.remove_edge(u, v)
+                # MASK IT (Set to 0)
+                self.edge_mask[u_idx, v_idx] = 0 
+                
+                # to store ONLY (u, v) for restoration 
+                self.removed_edges.append((source_node, dest_node)) 
+                status = "success"
                 changes_count += 1
-                print(f"  -> Removed edge from node {u} to {v}. Stored for potential restoration.")
+
+                print(f"  -> Masked edge (blocked) from {source_node} to {dest_node}.")
+            else:
+                print(f"  -> Failed: No active edge found between {source_node} and {dest_node}.")
+        else:
+             print(f"  -> Failed: One or both nodes ({source_node}, {dest_node}) not found in index map.")
 
         if changes_count > 0:
-            self._update_graph_state() 
+            self.adjacency_matrix = self._compute_masked_adjacency()
+
+        self.defensive_action_history.append({
+            "step": len(self.history), # Correlates with attacker step
+            "action": "Network Filtering",
+            "target": f"{source_node} -> {dest_node}",
+            "status": status,
+            "changes": changes_count
+        })
 
         return {"status": "success", "action": "Network Filtering", "changes": changes_count}
     
     # ACTION 2
-    # MODIFIED: Now updates state after completion
+
     def _action_restore_software(self, ip_address, cve_id=None):
-
-        print(f"Action applied: Restore Software on {ip_address}" + (f" for {cve_id}" if cve_id else "."))
-        nodes_to_remove_ids = []
-
-        if cve_id:
-            node_name = f"{cve_id}_[{ip_address}]"
-            node_id = self.name_to_id_map.get(node_name)
-            if node_id: nodes_to_remove_ids.append(node_id)
-        else:
-            names_to_find = [f"HostCompromise_[{ip_address}]", f"Privs_[{ip_address}]_Root", f"Privs_[{ip_address}]_User"]
-            found_ids = [self.name_to_id_map.get(name) for name in names_to_find]
-            nodes_to_remove_ids.extend([nid for nid in found_ids if nid is not None])
-
-        if not nodes_to_remove_ids:
-            return {"status": "failure", "message": f"No relevant nodes found for host {ip_address}."}
+        print(f"Action applied: Restore Software (Masking Node) on {ip_address}")
+        
+        nodes_to_mask = []
 
         removed_count = 0
-
-        for node_id in nodes_to_remove_ids:
-            if self.graph.has_node(node_id):
-                self.graph.remove_node(node_id)
+        for node_id in nodes_to_mask:
+            n_idx = self.node_to_idx.get(node_id)
+            
+            if n_idx is not None and self.node_mask[n_idx] == 1:
+                self.node_mask[n_idx] = 0 # MASK IT (make invisible)
                 removed_count += 1
         
         if removed_count > 0:
-            self._update_graph_state()
+            self.adjacency_matrix = self._compute_masked_adjacency()
+
+        self.defensive_action_history.append({
+            "step": len(self.history),
+            "action": "Restore Software",
+            "target": f"IP: {ip_address}, CVE: {cve_id}",
+            "status": "success" if removed_count > 0 else "no_change",
+            "changes": removed_count
+        })
 
         return {"status": "success", "action": "Restore Software", "changes": removed_count}
     
     # ACTION 3
     def _action_restore_network_connection(self):
-        """Action 4: Restores the most recently removed network edge."""
-
-        print("Action applied: Restore Network Connection.")
+        print("Action applied: Restore Network Connection (Unmasking).")
         if not self.removed_edges:
-            return {"status": "failure", "message": "No removed edges to restore."}
 
-        u, v, edge_data = self.removed_edges.pop()
+            self.defensive_action_history.append({
+                "step": len(self.history),
+                "action": "Restore Connection",
+                "target": "None",
+                "status": "failed (empty stack)",
+                "changes": 0
+            })
+
+            return {"status": "failure", "message": "No masked edges to restore."}
+
+        u, v = self.removed_edges.pop()
         
-        self.graph.add_edge(u, v, **edge_data)
-        print(f"  -> Restored edge from node {u} to {v}.")
+        u_idx = self.node_to_idx.get(u)
+        v_idx = self.node_to_idx.get(v)
         
-        self._update_graph_state() 
-        return {"status": "success", "action": "Restore Network Connection", "changes": 1, "restored_edge": (u, v)}
+        if u_idx is not None and v_idx is not None:
+
+            self.edge_mask[u_idx, v_idx] = 1 
+            print(f"  -> Restored (Unmasked) edge from {u} to {v}.")
+
+            self.adjacency_matrix = self._compute_masked_adjacency()
+
+            self.defensive_action_history.append({
+                "step": len(self.history),
+                "action": "Restore Connection",
+                "target": f"{u} -> {v}",
+                "status": "success",
+                "changes": 1
+            })
+
+            return {"status": "success", "restored": (u, v)}
+            
+        return {"status": "error", "message": "Node indices not found."}
+
+    def get_action_history(self):
+        """Returns the log of defensive actions taken."""
+        return self.defensive_action_history
