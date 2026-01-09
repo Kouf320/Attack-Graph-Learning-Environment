@@ -85,8 +85,7 @@ next_state, reward, alerts, done = env.step(action)
 ---
 
 ## Customization
-- **Change the Graph:** Replace `ag.json` with your own attack graph generated from tools like MulVAL or custom scripts, provided they follow the same JSON schema.
-- **Reward Logic:** Modify `rewards/RewardModel.py` to change how the agent is incentivized (e.g., higher penalties for detection).
-- **Alert Frequency:** Adjust `noise_prob` and `detection_prob` in `environment.py` or the `ag.json` node attributes to control the volume of IDS logs.
+- **Reward Logic:** Modify `rewards/RewardModel.py` to change how the attacker agent is incentivized (e.g., higher penalties for detection).
+- **Alert Frequency:** Adjust `noise_prob` and `detection_prob` in `environment.py` or the node attributes to control the volume of IDS logs.
 
 
