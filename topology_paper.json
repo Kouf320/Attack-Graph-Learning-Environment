@@ -1628,13 +1628,13 @@
         "defenses": {}
       },
       "270": {
-        "name": "Privs_[192.168.4.20]_Root",
+        "name": "Privs_[192.168.4.20]_User",
         "metaconcept": "Privileges",
         "eid": "270",
         "defenses": {}
       },
       "271": {
-        "name": "CVE-2022-40303_[192.168.4.20]",
+        "name": "CVE-2023-46604_[192.168.4.20]",
         "metaconcept": "Vulnerability",
         "eid": "271",
         "defenses": {}
@@ -1646,7 +1646,7 @@
         "defenses": {}
       },
       "273": {
-        "name": "Privs_[192.168.4.20]_User",
+        "name": "Privs_[192.168.4.20]_Root",
         "metaconcept": "Privileges",
         "eid": "273",
         "defenses": {}
