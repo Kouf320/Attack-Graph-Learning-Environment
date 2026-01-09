@@ -18,29 +18,3 @@ class DQNetwork(nn.Module):
         x = self.fc4(x)
         return x
 
-
-# class DQNetwork_Def(nn.Module):
-#     def __init__(self, input_dim, output_dim):
-#         super(DQNetwork_Def, self).__init__()
-#         self.fc1 = nn.Linear(input_dim, 64)
-#         self.fc2 = nn.Linear(64, 32)
-#         self.fc3 = nn.Linear(32, 4)
-#
-#     def forward(self, x):
-#         x = torch.relu(self.fc1(x))
-#         x = torch.relu(self.fc2(x))
-#         x = self.fc3(x)
-#         return x
-
-class DQNetwork_Def(nn.Module):
-    def __init__(self, input_dim, output_dim):
-        super(DQNetwork_Def, self).__init__()
-        self.fc1 = nn.Linear(input_dim, 512)
-        self.fc2 = nn.Linear(512, 128)
-        self.fc3 = nn.Linear(128, 4)
-
-    def forward(self, x):
-        x = torch.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
