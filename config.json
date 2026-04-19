@@ -1,0 +1,175 @@
+{
+  "general_settings": {
+    "_comment": "General settings used across multiple files.",
+    "DATE_FORMAT": {
+      "value": "%m-%d %H:%M:%S",
+      "_comment": "The timestamp format for logging.",
+      "_location": "Defender.py, Train.py"
+    }
+  },
+  "file_paths": {
+    "_comment": "Centralized file paths for models and environments.",
+    "environments": {
+      "sl300_complete_env": {
+        "value": "environments/env_SL300_complete.pkl",
+        "_comment": "Main environment file for training and evaluation.",
+        "_location": "api.py"
+      },
+      "env_1": {
+        "value": "environments/env_1.pkl",
+        "_comment": "Legacy or alternative environment file.",
+        "_location": "api.py"
+      },
+      "env_2": {
+        "value": "environments/env_2.pkl",
+        "_comment": "Second alternative environment for evaluation loops.",
+        "_location": "api.py"
+      },
+      "SL300": {
+        "value": "environments/ainceptionDEMO.pkl",
+        "_comment": "Second alternative environment for evaluation loops.",
+        "_location": "api.py"
+      },
+      "paper": {
+        "value": "environments/paper.pkl",
+        "_comment": "Full Demo for Refactored code",
+        "_location": "api.py"
+      },
+      "paper_alerts_fixed": {
+        "value": "environments/paper_alerts_fixed.pkl",
+        "_comment": "this is the environment after the new alert simulation has taken place in the environment",
+        "_location": ""
+      }
+    },
+    "attacker_models": {
+      "vehicle_to_media_attacker": {
+        "value": "policy-models/attacker/DQN_MAL_10k_Attacker_Vehicle_to_Media.h5",
+        "_comment": "Attacker model trained for the 'Vehicle to Media' scenario.",
+        "_location": "api.py, Defender.py"
+      },
+      "sl300_og_attacker": {
+        "value": "policy-models/attacker/DQN_MAL_10k_124_0-95_SL300-OG.h5",
+        "_comment": "Original SL300 attacker model for evaluation.",
+        "_location": "api.py, Train.py"
+      },
+      "paper-attacker": {
+        "value": "policy-models/attacker/paper-attacker.h5",
+        "_comment": "Attacker model trained trained for Stackelberg Game.",
+        "_location": "api.py, Train.py"
+      },
+      "paper": {
+        "value": "policy-models/attacker/paper.h5",
+        "_comment": "Auto-added by app on 2025-10-09",
+        "_location": "api.py, Train.py"
+      },
+      "paper10k": {
+        "value": "policy-models/attacker/paper10k.h5",
+        "_comment": "Auto-added by app on 2025-10-10",
+        "_location": "api.py, Train.py"
+      },
+      "paper-hopes": {
+        "value": "policy-models/attacker/paper-hopes.h5",
+        "_comment": "Auto-added by app on 2025-10-10",
+        "_location": "api.py, Train.py"
+      },
+      "new-attacker-model": {
+        "value": "policy-models/attacker/new_attacker_model.h5",
+        "_comment": "Auto-added by app on 2025-11-18",
+        "_location": "api.py, Train.py"
+      },
+      "new-attacker-model-last": {
+        "value": "policy-models/attacker/new_attacker_model_last.h5",
+        "_comment": "Auto-added by app on 2025-11-24",
+        "_location": "api.py, Train.py"
+      }
+    },
+    "defender_models": {
+      "sl300_defender": {
+        "value": "policy-models/def-extended-training/DQN_DEFENDER_sl300.h5",
+        "_comment": "Defender model specifically trained for the SL300 environment.",
+        "_location": "api.py"
+      },
+      "vehicle_to_media_defender": {
+        "value": "policy-models/def-extended-training/DQN-Defender-Vehicle_to_Media.h5",
+        "_comment": "Defender model saved after training against the 'Vehicle to Media' attacker.",
+        "_location": "Defender.py"
+      },
+      "generic_defender": {
+        "value": "policy-models/def-extended-training/DQN_DEFENDER.h5",
+        "_comment": "A general or primary trained defender model.",
+        "_location": "api.py"
+      },
+      "defender-paper": {
+        "value": "policy-models/def-extended-training/defender-hopes.h5",
+        "_comment": "this is to start with the refactoring",
+        "_location": ""
+      },
+      "paper": {
+        "value": "policy-models/def-extended-training/paper.h5",
+        "_comment": "Auto-added by app on 2025-11-25",
+        "_location": "api.py, Defender.py"
+      }
+    },
+    "policy_tables": {
+      "attacker_policy": {
+        "value": "policy-models/policy_table/policy.pkl",
+        "_comment": "Pickled Q-table or policy for the attacker.",
+        "_location": "api.py"
+      }
+    }
+  },
+  "environment_settings": {
+    "_comment": "Settings for the GraphEnvironment class.",
+    "NORM_F": {
+      "value": 17.8572,
+      "_comment": "Normalization factor for attacker utility based on CIA impact.",
+      "_location": "GraphEnvironment.py"
+    },
+    "NORM_F_ATTEMPT": {
+      "value": 21.147181,
+      "_comment": "Normalization factor for attacker utility based on attack effort.",
+      "_location": "GraphEnvironment.py"
+    },
+    "NON_ACTION_VALUE": {
+      "value": -1,
+      "_comment": "Default reward/utility value for an invalid or non-CVE action.",
+      "_location": "GraphEnvironment.py"
+    },
+    "NVD_KEY": {
+      "value": "c56f8c3c-efeb-4874-903f-9dd9e968c1b4",
+      "_comment": "API key for accessing the National Vulnerability Database (NVD).",
+      "_location": "GraphEnvironment.py"
+    },
+    "DATABASE_PATH": {
+      "value": "updateDB/vulnerability-remediation-database.db",
+      "_comment": "File path for the local vulnerability SQLite database.",
+      "_location": "GraphEnvironment.py"
+    }
+  },
+  "defender_agent_settings": {
+    "_comment": "Settings for the DQN_Def_Agent class.",
+    "LOG_FILE": {
+      "value": "logs/best-training-iterations",
+      "_comment": "File path for logging the best training rewards and model saves.",
+      "_location": "Defender.py"
+    },
+    "TIMESTEP_THRESHOLD": {
+      "value": 5,
+      "_comment": "Steps without a new alert before the network state returns to 'Normal'.",
+      "_location": "Defender.py"
+    }
+  },
+  "api_settings": {
+    "_comment": "Settings for the Flask API and Kafka integration.",
+    "KAFKA_TOPIC": {
+      "value": "coa",
+      "_comment": "The Kafka topic where Course of Action (COA) responses are sent.",
+      "_location": "api.py"
+    },
+    "KAFKA_BROKERS": {
+      "value": "10.160.101.73:9092",
+      "_comment": "The address of the Kafka broker(s).",
+      "_location": "api.py"
+    }
+  }
+}
