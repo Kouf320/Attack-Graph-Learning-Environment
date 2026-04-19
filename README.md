@@ -36,8 +36,7 @@ rl-network-defense/
 │   └── replay_buffer.py      # ReplayMemory and ReplayBuffer (experience replay)
 │
 ├── rewards/
-│   ├── attacker_reward.py    # DefaultRewardModel — CVSS-based attacker utility
-│   └── defender_reward.py    # RewardModelPPO — PBRS + availability cost shaping
+│   └── attacker_reward.py    # DefaultRewardModel — CVSS-based attacker utility
 │
 ├── utils/
 │   ├── alert_generator.py    # Suricata-format synthetic alert generator
@@ -123,8 +122,8 @@ until convergence with tolerance ε = 1e-6.
 | ID | Action | Effect |
 |----|--------|--------|
 | 0 | Do Nothing | No structural change |
-| 1 | Network Filtering | Mask all outgoing edges from target node |
-| 2 | Restore Software (Patch) | Mask target CVE node |
+| 1 | Mask all outgoing edges from target node |
+| 2 | Mask target CVE node |
 | 3 | Restore Connection | Unmask last removed edge |
 
 ### Gymnasium Wrappers
@@ -166,18 +165,6 @@ L(θ) = L^{ACTOR} + c₁·L^{CRITIC} − c₂·L^{ENT}
 
 Same GAT encoder as the Actor-Critic, with a single Q-network head outputting one scalar per `(action_type, target_node)` pair. Trained with Double DQN, experience replay, and soft target-network updates (τ = 0.005).
 
-### Defender Reward (PBRS)
-
-The reward uses potential-based reward shaping (PBRS) anchored on goal-node unconditional risk Φ(s) = −P_risk(goal):
-
-```
-r_step = R_availability(action) + bonus_risk_targeting + PBRS
-PBRS   = λ · (Φ(s) − γ · Φ(s')) = λ · (P_risk_before − γ · P_risk_after)
-```
-
-Terminal rewards:
-- **Defense success**: `+50 · (1 + 0.1 · steps_remaining) · (α + (1-α) · precision)`
-- **Attacker goal reached**: `−50 · (1 + 0.1 · steps_taken)`
 
 ## Installation
 
