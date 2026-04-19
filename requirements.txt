@@ -1,7 +1,0 @@
-numpy
-torch
-networkx
-pyvis
-matplotlib
-requests
-pandas
