@@ -1,4 +1,4 @@
-# RL Network Defense
+# Attack-Graph-Learning-Environment
 
 A reinforcement learning framework for modeling adversarial cyber-attack and defense interactions on enterprise network attack graphs. The environment encodes a network topology as a directed graph derived from an attack graph model (e.g., MAL — Meta Attack Language), where edge weights are derived directly from CVSSv3 exploitability and impact metrics.
 
