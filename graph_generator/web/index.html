@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ViolenceLang · Topology Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* opal palette — soft, pearlescent, never neon */
+    --bg:#eef3f2;
+    --bg-2:#e6edec;
+    --surface:#ffffff;
+    --surface-soft:#f7faf9;
+    --ink:#2e3b3a;
+    --muted:#7a8a88;
+    --line:#dde6e4;
+    --teal:#5fa9a3;
+    --teal-deep:#3f817b;
+    --blush:#e3b9c6;
+    --blush-deep:#c98ba0;
+    --lavender:#c2bbe0;
+    --lavender-deep:#9a91c4;
+    --pearl:#ead9b8;
+    --ok:#4f9d83;
+    --warn:#c79a4a;
+    --bad:#c2706f;
+    --radius:14px;
+    --radius-sm:9px;
+    --shadow:0 1px 2px rgba(46,59,58,.05),0 8px 28px rgba(46,59,58,.08);
+    --shadow-soft:0 1px 2px rgba(46,59,58,.04);
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 520px at 12% -8%, rgba(194,187,224,.30), transparent 60%),
+      radial-gradient(1100px 520px at 92% -6%, rgba(227,185,198,.28), transparent 58%),
+      radial-gradient(900px 600px at 50% 120%, rgba(95,169,163,.18), transparent 60%),
+      var(--bg);
+    min-height:100vh;
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  /* ---------- header ---------- */
+  header{
+    padding:26px 34px 18px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(120deg, rgba(255,255,255,.66), rgba(255,255,255,.30));
+    backdrop-filter:blur(4px);
+  }
+  .brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .brand h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:27px;
+    letter-spacing:.2px;
+    margin:0;
+    background:linear-gradient(95deg,var(--teal-deep),var(--lavender-deep) 55%,var(--blush-deep));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .brand .sub{color:var(--muted);font-size:13.5px;font-style:italic;font-family:var(--serif)}
+  .tagline{color:var(--muted);margin:6px 0 0;max-width:760px}
+  /* ---------- layout ---------- */
+  main{max-width:1320px;margin:0 auto;padding:24px 30px 90px;display:grid;grid-template-columns:1.45fr 1fr;gap:24px}
+  @media (max-width:1000px){main{grid-template-columns:1fr}}
+  .col{display:flex;flex-direction:column;gap:20px}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .panel > .phead{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:15px 20px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--surface-soft),#fff);
+  }
+  .phead h2{font-family:var(--serif);font-weight:600;font-size:17px;margin:0;letter-spacing:.2px}
+  .phead .hint{color:var(--muted);font-size:12.5px}
+  .pbody{padding:18px 20px}
+  /* ---------- buttons ---------- */
+  button{font-family:var(--sans);cursor:pointer;border:none;border-radius:var(--radius-sm);font-size:13.5px;font-weight:500;transition:.16s ease;color:var(--ink)}
+  .btn{padding:9px 15px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-soft)}
+  .btn:hover{border-color:var(--teal);color:var(--teal-deep)}
+  .btn.primary{
+    color:#fff;border:none;
+    background:linear-gradient(100deg,var(--teal-deep),var(--teal));
+    box-shadow:0 6px 18px rgba(63,129,123,.28);
+  }
+  .btn.primary:hover{filter:brightness(1.05)}
+  .btn.ghost{background:transparent;box-shadow:none;border:1px solid transparent;color:var(--muted)}
+  .btn.ghost:hover{color:var(--bad);border-color:rgba(194,112,111,.4)}
+  .btn.small{padding:6px 10px;font-size:12.5px;border-radius:8px}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  /* ---------- forms ---------- */
+  label{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 4px;font-weight:600}
+  input,select,textarea{
+    width:100%;font-family:var(--sans);font-size:13.5px;color:var(--ink);
+    padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft);transition:.15s ease;
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);background:#fff;box-shadow:0 0 0 3px rgba(95,169,163,.14)}
+  textarea{resize:vertical;min-height:90px;font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:12.5px;line-height:1.45}
+  .grid{display:grid;gap:12px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .field{min-width:0}
+  /* ---------- host card ---------- */
+  .host{border:1px solid var(--line);border-radius:var(--radius-sm);margin-bottom:16px;background:var(--surface-soft);overflow:hidden}
+  .host-head{
+    display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;
+    background:linear-gradient(180deg,#fff,var(--surface-soft));border-bottom:1px solid var(--line);
+  }
+  .host-dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--lavender));flex:none}
+  .host-title{font-weight:600;font-size:14px}
+  .host-meta{color:var(--muted);font-size:12.5px;margin-left:2px}
+  .host-head .spacer{flex:1}
+  .host-body{padding:15px 16px;display:none}
+  .host.open .host-body{display:block}
+  .chev{transition:.2s;color:var(--muted)}
+  .host.open .chev{transform:rotate(90deg)}
+  /* ---------- vulns ---------- */
+  .vuln{border:1px dashed var(--line);border-radius:8px;padding:12px;margin-top:10px;background:#fff}
+  .vuln-top{display:flex;gap:10px;align-items:flex-end}
+  .vuln-top .field{flex:1}
+  .cvss-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:10px}
+  .cvss-grid .field label{font-size:10px}
+  .cvss-grid select{padding:6px 6px;text-align:center}
+  .cvss-str{margin-top:9px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--teal-deep);
+    background:rgba(95,169,163,.10);border:1px solid rgba(95,169,163,.22);border-radius:7px;padding:6px 9px;word-break:break-all}
+  .cvss-str.invalid{color:var(--bad);background:rgba(194,112,111,.08);border-color:rgba(194,112,111,.3)}
+  .vstatus{font-size:11.5px;margin-top:6px;display:flex;align-items:center;gap:6px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px}
+  .pill.ok{background:rgba(79,157,131,.14);color:var(--ok)}
+  .pill.warn{background:rgba(199,154,74,.16);color:var(--warn)}
+  .pill.bad{background:rgba(194,112,111,.14);color:var(--bad)}
+  .pill.mut{background:var(--bg-2);color:var(--muted)}
+  /* ---------- connections ---------- */
+  .conn{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .conn select{flex:1}
+  .arrow{color:var(--lavender-deep);font-weight:600}
+  /* ---------- json preview ---------- */
+  pre.json{margin:0;max-height:360px;overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.5;
+    background:#1f2a29;color:#d6e6e3;padding:14px 16px;border-radius:var(--radius-sm)}
+  .json .k{color:#a7d3cd}.json .s{color:#e3b9c6}.json .n{color:#c2bbe0}.json .b{color:#ead9b8}
+  /* ---------- results / log ---------- */
+  .result{margin-top:12px;border-radius:var(--radius-sm);padding:13px 15px;font-size:13px;border:1px solid var(--line);background:var(--surface-soft);display:none}
+  .result.show{display:block}
+  .result.good{border-color:rgba(79,157,131,.4);background:rgba(79,157,131,.08)}
+  .result.err{border-color:rgba(194,112,111,.4);background:rgba(194,112,111,.07)}
+  .stat-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12.5px}
+  .stat b{font-family:var(--serif);font-size:15px;color:var(--teal-deep);display:block}
+  /* ---------- modal ---------- */
+  .modal-bg{position:fixed;inset:0;background:rgba(46,59,58,.34);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;z-index:50}
+  .modal-bg.show{display:flex}
+  .modal{background:#fff;border-radius:var(--radius);max-width:560px;width:92%;max-height:82vh;overflow:auto;box-shadow:var(--shadow);border:1px solid var(--line)}
+  .modal .phead{position:sticky;top:0}
+  .topo-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:var(--surface-soft)}
+  .topo-item:hover{border-color:var(--teal)}
+  .topo-item .nm{font-weight:600;font-size:13px}
+  .topo-item .mt{color:var(--muted);font-size:11.5px}
+  /* ---------- footer status bar ---------- */
+  .statusbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);padding:9px 24px;display:flex;align-items:center;gap:16px;font-size:12.5px;color:var(--muted);z-index:30}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+  .dot.up{background:var(--ok)}.dot.down{background:var(--bad)}
+  .toast{margin-left:auto;color:var(--ink)}
+  .muted{color:var(--muted)}
+  .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(95,169,163,.3);border-top-color:var(--teal-deep);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .empty{color:var(--muted);font-style:italic;padding:8px 2px}
+  .divider{height:1px;background:var(--line);margin:16px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>ViolenceLang Topology Builder</h1>
+    <span class="sub">attack-graph authoring for the RL environment</span>
+  </div>
+  <p class="tagline">Describe your network — hosts, their CVEs and CVSS vectors, and how they connect — then generate a MAL attack graph that drops straight into <code>attack_graphs/</code> for training.</p>
+</header>
+
+<main>
+  <!-- LEFT: hosts -->
+  <div class="col">
+    <div class="panel">
+      <div class="phead">
+        <h2>Hosts</h2>
+        <div class="btn-row">
+          <span class="hint" id="hostCount">0 hosts</span>
+          <button class="btn small primary" id="addHost">+ Add host</button>
+        </div>
+      </div>
+      <div class="pbody" id="hostList"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: connections + generate + preview -->
+  <div class="col">
+    <div class="panel">
+      <div class="phead"><h2>Scenario</h2><span class="hint">names the output files</span></div>
+      <div class="pbody">
+        <div class="grid g2">
+          <div class="field">
+            <label>Scenario name</label>
+            <input id="scenarioName" placeholder="e.g. lab_subnet_a" value="my_scenario" />
+          </div>
+          <div class="field">
+            <label>Description (optional)</label>
+            <input id="scenarioDesc" placeholder="free text, stored in metadata" />
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="btn-row">
+          <button class="btn small" id="newBtn">New</button>
+          <button class="btn small" id="loadBtn">Load existing…</button>
+          <button class="btn small" id="importBtn">Import JSON</button>
+          <button class="btn small" id="exportBtn">Export topology</button>
+          <button class="btn small" id="validateBtn">Validate CVEs</button>
+        </div>
+        <input type="file" id="fileInput" accept="application/json" style="display:none" />
+        <div class="btn-row" style="margin-top:14px">
+          <button class="btn primary" id="generateBtn">⚡ Generate attack graph</button>
+          <span class="hint">writes <code>attack_graphs/&lt;name&gt;.json</code></span>
+        </div>
+        <div class="result" id="result"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <h2>Connections</h2>
+        <button class="btn small primary" id="addConn">+ Add connection</button>
+      </div>
+      <div class="pbody" id="connList"></div>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <h2>Topology preview</h2>
+        <span class="hint" id="previewMeta"></span>
+      </div>
+      <div class="pbody"><pre class="json" id="jsonPreview"></pre></div>
+    </div>
+  </div>
+</main>
+
+<!-- Load existing modal -->
+<div class="modal-bg" id="loadModal">
+  <div class="modal">
+    <div class="phead"><h2>Load topology</h2><button class="btn ghost small" id="closeLoad">Close</button></div>
+    <div class="pbody" id="topoList"><div class="empty">Loading…</div></div>
+  </div>
+</div>
+
+<!-- Import modal -->
+<div class="modal-bg" id="importModal">
+  <div class="modal">
+    <div class="phead"><h2>Import topology JSON</h2><button class="btn ghost small" id="closeImport">Close</button></div>
+    <div class="pbody">
+      <p class="muted" style="margin-top:0">Paste a topology in either <code>onlineHosts</code>/<code>expectedConnections</code> form or the legacy <code>hosts</code>/<code>connections</code> form.</p>
+      <textarea id="importText" style="min-height:220px" placeholder='{ "onlineHosts": [ ... ], "expectedConnections": [ ... ] }'></textarea>
+      <div class="btn-row" style="margin-top:12px"><button class="btn primary small" id="doImport">Import</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="statusbar">
+  <span class="dot" id="srvDot"></span><span id="srvText">checking server…</span>
+  <span class="muted" id="dbText"></span>
+  <span class="toast" id="toast"></span>
+</div>
+
+<script>
+/* ============================================================= state ====== */
+const CVSS = {
+  AV:[["N","Network"],["A","Adjacent"],["L","Local"],["P","Physical"]],
+  AC:[["L","Low"],["H","High"]],
+  PR:[["N","None"],["L","Low"],["H","High"]],
+  UI:[["N","None"],["R","Required"]],
+  S :[["U","Unchanged"],["C","Changed"]],
+  C :[["H","High"],["L","Low"],["N","None"]],
+  I :[["H","High"],["L","Low"],["N","None"]],
+  A :[["H","High"],["L","Low"],["N","None"]],
+};
+const CVSS_ORDER = ["AV","AC","PR","UI","S","C","I","A"];
+let state = { hosts: [], connections: [] };
+let uid = 1;
+const nextUid = () => uid++;
+
+function blankVuln(){ return { _u:nextUid(), cve:"", m:{AV:"N",AC:"L",PR:"N",UI:"N",S:"U",C:"H",I:"H",A:"H"} }; }
+function blankHost(id){
+  return { _u:nextUid(), id:id, hostname:"host"+id, ip:"", os:"Linux", status:"online", group:"", vulns:[blankVuln()] };
+}
+function cvssString(m){ return "CVSS:3.1/" + CVSS_ORDER.map(k=>k+":"+m[k]).join("/"); }
+
+/* ============================================================= render ===== */
+const hostList = document.getElementById("hostList");
+const connList = document.getElementById("connList");
+
+function render(){
+  renderHosts(); renderConns(); renderPreview();
+  document.getElementById("hostCount").textContent = state.hosts.length + (state.hosts.length===1?" host":" hosts");
+}
+
+function renderHosts(){
+  if(!state.hosts.length){ hostList.innerHTML = '<div class="empty">No hosts yet — add one to begin.</div>'; return; }
+  hostList.innerHTML = "";
+  state.hosts.forEach((h,hi)=>{
+    const card = document.createElement("div");
+    card.className = "host" + (h._open!==false ? " open":"");
+    const vulnCount = h.vulns.length;
+    card.innerHTML = `
+      <div class="host-head" data-act="toggle" data-hi="${hi}">
+        <span class="host-dot"></span>
+        <span class="host-title">#${h.id} · ${escapeHtml(h.hostname||"(unnamed)")}</span>
+        <span class="host-meta">${escapeHtml(h.ip||"no ip")} · ${escapeHtml(h.os)} · ${vulnCount} vuln${vulnCount!==1?"s":""}</span>
+        <span class="spacer"></span>
+        <button class="btn ghost small" data-act="delHost" data-hi="${hi}">Remove</button>
+        <span class="chev">▸</span>
+      </div>
+      <div class="host-body">
+        <div class="grid g4">
+          <div class="field"><label>ID</label><input type="number" value="${h.id}" data-f="id" data-hi="${hi}"></div>
+          <div class="field"><label>Hostname</label><input value="${escapeAttr(h.hostname)}" data-f="hostname" data-hi="${hi}"></div>
+          <div class="field"><label>OS</label><input value="${escapeAttr(h.os)}" data-f="os" data-hi="${hi}"></div>
+          <div class="field"><label>Group</label><input value="${escapeAttr(h.group)}" data-f="group" data-hi="${hi}"></div>
+        </div>
+        <div class="grid g2" style="margin-top:12px">
+          <div class="field"><label>IP addresses (comma-separated)</label><input value="${escapeAttr(h.ip)}" data-f="ip" data-hi="${hi}" placeholder="192.168.1.10"></div>
+          <div class="field"><label>Status</label>
+            <select data-f="status" data-hi="${hi}">
+              ${["online","offline"].map(s=>`<option ${h.status===s?"selected":""}>${s}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="btn-row" style="justify-content:space-between">
+          <label style="margin:0">Vulnerabilities</label>
+          <button class="btn small" data-act="addVuln" data-hi="${hi}">+ Add vulnerability</button>
+        </div>
+        <div data-vulns="${hi}"></div>
+      </div>`;
+    hostList.appendChild(card);
+    const vc = card.querySelector(`[data-vulns="${hi}"]`);
+    h.vulns.forEach((v,vi)=> vc.appendChild(renderVuln(h,hi,v,vi)));
+  });
+}
+
+function renderVuln(h,hi,v,vi){
+  const wrap = document.createElement("div");
+  wrap.className = "vuln";
+  const str = cvssString(v.m);
+  const selects = CVSS_ORDER.map(k=>`
+    <div class="field"><label>${k}</label>
+      <select data-cvss="${k}" data-hi="${hi}" data-vi="${vi}">
+        ${CVSS[k].map(([val,desc])=>`<option value="${val}" ${v.m[k]===val?"selected":""} title="${desc}">${val}</option>`).join("")}
+      </select>
+    </div>`).join("");
+  wrap.innerHTML = `
+    <div class="vuln-top">
+      <div class="field"><label>CVE ID</label><input value="${escapeAttr(v.cve)}" data-f="cve" data-hi="${hi}" data-vi="${vi}" placeholder="CVE-2024-23109"></div>
+      <button class="btn ghost small" data-act="delVuln" data-hi="${hi}" data-vi="${vi}">Remove</button>
+    </div>
+    <div class="cvss-grid">${selects}</div>
+    <div class="cvss-str" data-cvssstr="${hi}-${vi}">${str}</div>
+    <div class="vstatus" data-vstatus="${hi}-${vi}"></div>`;
+  return wrap;
+}
+
+function renderConns(){
+  if(!state.connections.length){ connList.innerHTML = '<div class="empty">No connections — the attacker can still recon, but reachability between hosts won\'t be modelled.</div>'; return; }
+  connList.innerHTML = "";
+  const opts = state.hosts.map(h=>`<option value="${h.id}">#${h.id} ${escapeHtml(h.hostname)}</option>`).join("");
+  state.connections.forEach((c,ci)=>{
+    const row = document.createElement("div");
+    row.className = "conn";
+    row.innerHTML = `
+      <select data-cf="source" data-ci="${ci}">${opts}</select>
+      <span class="arrow">→</span>
+      <select data-cf="destination" data-ci="${ci}">${opts}</select>
+      <button class="btn ghost small" data-act="delConn" data-ci="${ci}">✕</button>`;
+    connList.appendChild(row);
+    row.querySelector('[data-cf="source"]').value = c.source;
+    row.querySelector('[data-cf="destination"]').value = c.destination;
+  });
+}
+
+function renderPreview(){
+  const topo = buildTopology();
+  document.getElementById("jsonPreview").innerHTML = colorJson(topo);
+  document.getElementById("previewMeta").textContent =
+    `${topo.onlineHosts.length} hosts · ${topo.expectedConnections.length} connections`;
+}
+
+/* ============================================================= build ====== */
+function buildTopology(){
+  return {
+    configOrigins: "topology_builder",
+    description: document.getElementById("scenarioDesc").value || "",
+    totalNumberOfHosts: state.hosts.length,
+    onlineHosts: state.hosts.map(h=>({
+      id: Number(h.id),
+      hostname: h.hostname,
+      ip: h.ip.split(",").map(s=>s.trim()).filter(Boolean),
+      os: h.os,
+      status: h.status,
+      group: h.group,
+      vulnerabilities: h.vulns.filter(v=>v.cve.trim()).map(v=>({ cve:v.cve.trim(), cvss:cvssString(v.m) }))
+    })),
+    expectedConnections: state.connections
+      .filter(c=>c.source!=null && c.destination!=null)
+      .map(c=>({ source:Number(c.source), destination:Number(c.destination) }))
+  };
+}
+
+/* ============================================================= events ===== */
+document.getElementById("addHost").onclick = ()=>{
+  const id = state.hosts.length ? Math.max(...state.hosts.map(h=>Number(h.id)))+1 : 1;
+  state.hosts.push(blankHost(id)); render();
+};
+document.getElementById("addConn").onclick = ()=>{
+  if(state.hosts.length<1){ toast("Add hosts first."); return; }
+  const a = state.hosts[0].id, b = state.hosts[state.hosts.length-1].id;
+  state.connections.push({source:a, destination:b}); render();
+};
+
+hostList.addEventListener("click", e=>{
+  const b = e.target.closest("[data-act]"); if(!b) return;
+  const hi = +b.dataset.hi, act = b.dataset.act;
+  if(act==="toggle"){ if(e.target.closest("[data-act='delHost']"))return; state.hosts[hi]._open = !(state.hosts[hi]._open!==false); render(); }
+  if(act==="delHost"){ e.stopPropagation(); state.hosts.splice(hi,1); render(); }
+  if(act==="addVuln"){ state.hosts[hi].vulns.push(blankVuln()); render(); }
+  if(act==="delVuln"){ state.hosts[hi].vulns.splice(+b.dataset.vi,1); render(); }
+});
+hostList.addEventListener("input", e=>{
+  const t = e.target; const hi = t.dataset.hi;
+  if(hi==null) return;
+  const h = state.hosts[+hi];
+  if(t.dataset.f && t.dataset.vi==null){ h[t.dataset.f] = t.value; renderPreview(); refreshConnOpts(); updateHeadLine(+hi); }
+  else if(t.dataset.f && t.dataset.vi!=null){ h.vulns[+t.dataset.vi][t.dataset.f] = t.value; renderPreview(); }
+});
+hostList.addEventListener("change", e=>{
+  const t = e.target;
+  if(t.dataset.cvss!=null){
+    const h = state.hosts[+t.dataset.hi]; const v = h.vulns[+t.dataset.vi];
+    v.m[t.dataset.cvss] = t.value;
+    const str = cvssString(v.m);
+    const el = document.querySelector(`[data-cvssstr="${t.dataset.hi}-${t.dataset.vi}"]`);
+    if(el) el.textContent = str;
+    renderPreview();
+  }
+  if(t.dataset.f==="status"){ state.hosts[+t.dataset.hi].status = t.value; renderPreview(); }
+});
+
+connList.addEventListener("click", e=>{
+  const b = e.target.closest("[data-act='delConn']"); if(!b) return;
+  state.connections.splice(+b.dataset.ci,1); render();
+});
+connList.addEventListener("change", e=>{
+  const t = e.target; if(t.dataset.cf==null) return;
+  state.connections[+t.dataset.ci][t.dataset.cf] = Number(t.value); renderPreview();
+});
+
+function updateHeadLine(hi){
+  const h = state.hosts[hi];
+  const head = hostList.querySelectorAll(".host")[hi];
+  if(!head) return;
+  head.querySelector(".host-title").textContent = `#${h.id} · ${h.hostname||"(unnamed)"}`;
+  head.querySelector(".host-meta").textContent = `${h.ip||"no ip"} · ${h.os} · ${h.vulns.length} vuln${h.vulns.length!==1?"s":""}`;
+}
+function refreshConnOpts(){ renderConns(); }
+
+/* toolbar */
+document.getElementById("newBtn").onclick = ()=>{
+  if(state.hosts.length && !confirm("Clear the current topology?")) return;
+  state = { hosts:[], connections:[] }; render();
+};
+document.getElementById("exportBtn").onclick = ()=>{
+  const blob = new Blob([JSON.stringify(buildTopology(),null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = (sanitize(document.getElementById("scenarioName").value)||"topology")+".json";
+  a.click();
+};
+document.getElementById("importBtn").onclick = ()=> showModal("importModal");
+document.getElementById("fileInput").onchange = ev=>{
+  const f = ev.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{ try{ loadTopology(JSON.parse(r.result)); toast("Imported "+f.name); }catch(err){ toast("Invalid JSON: "+err.message); } };
+  r.readAsText(f);
+};
+document.getElementById("doImport").onclick = ()=>{
+  try{ loadTopology(JSON.parse(document.getElementById("importText").value)); hideModal("importModal"); toast("Imported."); }
+  catch(err){ toast("Invalid JSON: "+err.message); }
+};
+
+/* ============================================================= load spec == */
+function loadTopology(raw){
+  const hostsArr = raw.onlineHosts || raw.hosts || [];
+  let conns = raw.expectedConnections ? raw.expectedConnections.slice() : [];
+  hostsArr.forEach(h=>{ (h.connections||[]).forEach(c=>conns.push(c)); });
+  state.hosts = hostsArr.map(h=>({
+    _u:nextUid(), _open:false,
+    id: h.id,
+    hostname: h.hostname || ("host"+h.id),
+    ip: Array.isArray(h.ip) ? h.ip.join(", ") : (h.ip||""),
+    os: h.os || "Linux",
+    status: h.status || "online",
+    group: h.group || "",
+    vulns: (h.vulnerabilities||[]).map(v=>({ _u:nextUid(), cve:v.cve||"", m:parseCvss(v.cvss) }))
+  }));
+  if(!state.hosts.length===false && state.hosts.length) state.hosts[0]._open = true;
+  // de-dup connections
+  const seen = new Set();
+  state.connections = conns.filter(c=>{
+    if(c.source==null||c.destination==null) return false;
+    const k = c.source+"->"+c.destination; if(seen.has(k))return false; seen.add(k); return true;
+  }).map(c=>({source:Number(c.source),destination:Number(c.destination)}));
+  if(raw.description) document.getElementById("scenarioDesc").value = raw.description;
+  render();
+}
+function parseCvss(str){
+  const def = {AV:"N",AC:"L",PR:"N",UI:"N",S:"U",C:"H",I:"H",A:"H"};
+  if(!str) return def;
+  str.replace(/^CVSS:3\.[01]\//,"").split("/").forEach(p=>{
+    const [k,val] = p.split(":"); if(k in def && val) def[k]=val;
+  });
+  return def;
+}
+
+/* ============================================================= server ===== */
+async function api(path, opts){
+  const r = await fetch(path, opts);
+  const j = await r.json().catch(()=>({error:"bad response"}));
+  if(!r.ok) throw new Error(j.error||("HTTP "+r.status));
+  return j;
+}
+async function checkServer(){
+  try{
+    const h = await api("/api/health");
+    setSrv(true, "server connected");
+    document.getElementById("dbText").textContent =
+      h.db_exists ? "· CVSS database found" : "· ⚠ CVSS database missing";
+  }catch(e){ setSrv(false, "server offline — start app.py"); }
+}
+function setSrv(up,txt){
+  const d = document.getElementById("srvDot");
+  d.className = "dot " + (up?"up":"down");
+  document.getElementById("srvText").textContent = txt;
+}
+
+document.getElementById("loadBtn").onclick = async ()=>{
+  showModal("loadModal");
+  const box = document.getElementById("topoList");
+  box.innerHTML = '<div class="empty">Loading…</div>';
+  try{
+    const j = await api("/api/topologies");
+    if(!j.topologies.length){ box.innerHTML = '<div class="empty">No topology files found.</div>'; return; }
+    box.innerHTML = "";
+    j.topologies.forEach(t=>{
+      const row = document.createElement("div"); row.className="topo-item";
+      row.innerHTML = `<div><div class="nm">${escapeHtml(t.name)}</div><div class="mt">${escapeHtml(t.source)} · ${t.hosts} hosts</div></div>
+        <button class="btn small primary">Load</button>`;
+      row.querySelector("button").onclick = async ()=>{
+        try{ const r = await api("/api/topology?path="+encodeURIComponent(t.path));
+          loadTopology(r.raw);
+          document.getElementById("scenarioName").value = sanitize(t.name.replace(/\.json$/,""));
+          hideModal("loadModal"); toast("Loaded "+t.name);
+        }catch(e){ toast(e.message); }
+      };
+      box.appendChild(row);
+    });
+  }catch(e){ box.innerHTML = '<div class="empty">'+escapeHtml(e.message)+'</div>'; }
+};
+
+document.getElementById("validateBtn").onclick = async ()=>{
+  const topo = buildTopology();
+  toast("Validating CVEs…");
+  try{
+    const rep = await api("/api/validate-cves",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({topology:topo})});
+    applyCveReport(rep);
+    const r = document.getElementById("result"); r.className="result show";
+    if(!rep.db_available){ r.classList.add("err"); r.innerHTML = "⚠ CVSS database not found — edge rewards in the RL env will be 0 for all CVEs."; return; }
+    r.innerHTML = `<b>CVE validation</b>
+      <div class="stat-row">
+        <div class="stat"><b>${rep.ok.length}</b> usable (in DB + CVSS)</div>
+        <div class="stat"><b>${rep.empty_cvss.length}</b> empty CVSS in DB</div>
+        <div class="stat"><b>${rep.missing.length}</b> not in DB</div>
+      </div>
+      ${(rep.empty_cvss.length||rep.missing.length)?'<p class="muted" style="margin:9px 0 0">CVEs without a DB CVSS string contribute no severity weight to their edges.</p>':''}`;
+  }catch(e){ toast(e.message); }
+};
+function applyCveReport(rep){
+  const byCve = {}; rep.results.forEach(x=>byCve[x.cve]=x);
+  state.hosts.forEach((h,hi)=>h.vulns.forEach((v,vi)=>{
+    const el = document.querySelector(`[data-vstatus="${hi}-${vi}"]`);
+    if(!el) return;
+    const cve = v.cve.trim(); if(!cve){ el.innerHTML=""; return; }
+    const x = byCve[cve];
+    if(!x){ el.innerHTML = `<span class="pill mut">not checked</span>`; return; }
+    if(x.has_cvss) el.innerHTML = `<span class="pill ok">✓ in DB · CVSS present</span>`;
+    else if(x.in_db) el.innerHTML = `<span class="pill warn">in DB · no CVSS string</span>`;
+    else el.innerHTML = `<span class="pill bad">not in DB</span>`;
+  }));
+}
+
+document.getElementById("generateBtn").onclick = async ()=>{
+  const topo = buildTopology();
+  if(!topo.onlineHosts.length){ toast("Add at least one host."); return; }
+  const name = sanitize(document.getElementById("scenarioName").value) || "topology";
+  const btn = document.getElementById("generateBtn");
+  const r = document.getElementById("result");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Generating…';
+  r.className = "result show"; r.innerHTML = "Generating attack graph…";
+  try{
+    const j = await api("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({topology:topo, name:name, save_topology:true})});
+    r.className = "result show good";
+    r.innerHTML = `<b>✓ Attack graph generated</b>
+      <div class="stat-row">
+        <div class="stat"><b>${j.assets}</b> assets</div>
+        <div class="stat"><b>${j.associations}</b> associations</div>
+        <div class="stat"><b>${j.access_goal_candidates}</b> goal candidates</div>
+        <div class="stat"><b>${j.recon_entry_points}</b> recon entries</div>
+      </div>
+      <p class="muted" style="margin:10px 0 0">Saved to <code>${escapeHtml(j.graph_rel)}</code> — load it in the RL env with
+      <code>NetworkAttackEnv("${escapeHtml(j.graph_rel)}")</code>.</p>
+      ${cveLine(j.cve_summary)}`;
+    toast("Generated "+name+".json");
+  }catch(e){
+    r.className="result show err"; r.innerHTML = "<b>Generation failed</b><br>"+escapeHtml(e.message);
+  }finally{ btn.disabled=false; btn.innerHTML="⚡ Generate attack graph"; }
+};
+function cveLine(s){
+  if(!s) return "";
+  if(!s.db_available) return '<p class="muted" style="margin:8px 0 0">⚠ CVSS database missing — edge rewards will be 0.</p>';
+  if(s.missing||s.empty_cvss) return `<p class="muted" style="margin:8px 0 0">CVE coverage: ${s.ok} usable, ${s.empty_cvss} empty CVSS, ${s.missing} missing.</p>`;
+  return `<p class="muted" style="margin:8px 0 0">All ${s.ok} CVEs resolved in the database. ✓</p>`;
+}
+
+/* ============================================================= helpers ==== */
+function showModal(id){ document.getElementById(id).classList.add("show"); }
+function hideModal(id){ document.getElementById(id).classList.remove("show"); }
+document.getElementById("closeLoad").onclick = ()=>hideModal("loadModal");
+document.getElementById("closeImport").onclick = ()=>hideModal("importModal");
+[ "loadModal","importModal" ].forEach(id=>{
+  document.getElementById(id).addEventListener("click",e=>{ if(e.target.id===id) hideModal(id); });
+});
+let toastT;
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; clearTimeout(toastT); toastT=setTimeout(()=>t.textContent="",4000); }
+function sanitize(s){ return (s||"").replace(/[^A-Za-z0-9._-]+/g,"_").replace(/^_+|_+$/g,""); }
+function escapeHtml(s){ return String(s??"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function escapeAttr(s){ return String(s??"").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function colorJson(obj){
+  const j = JSON.stringify(obj,null,2);
+  return escapeHtml(j)
+    .replace(/(&quot;[^&]*?&quot;)(\s*:)/g,'<span class="k">$1</span>$2')
+    .replace(/:\s*(&quot;[^&]*?&quot;)/g,': <span class="s">$1</span>')
+    .replace(/:\s*(-?\d+\.?\d*)/g,': <span class="n">$1</span>')
+    .replace(/:\s*(true|false|null)/g,': <span class="b">$1</span>');
+}
+
+/* ============================================================= boot ======= */
+function seed(){
+  const a = blankHost(1); a._open = true;
+  a.ip = "192.168.1.10"; a.vulns=[{_u:nextUid(),cve:"CVE-2024-23109",m:{AV:"N",AC:"L",PR:"N",UI:"N",S:"U",C:"H",I:"H",A:"H"}}];
+  const b = blankHost(2); b._open = false;
+  b.ip = "192.168.1.20"; b.vulns=[{_u:nextUid(),cve:"CVE-2024-21851",m:{AV:"L",AC:"L",PR:"L",UI:"N",S:"U",C:"H",I:"H",A:"H"}}];
+  state.hosts=[a,b]; state.connections=[{source:1,destination:2}];
+}
+seed(); render(); checkServer();
+</script>
+</body>
+</html>

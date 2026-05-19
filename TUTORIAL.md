@@ -8,6 +8,7 @@ This tutorial walks you from installation through training and evaluating both a
 
 1. [Installation](#1-installation)
 2. [Attack Graph Format](#2-attack-graph-format)
+   - [2.1 Building Your Own Attack Graph — Topology Builder](#21-building-your-own-attack-graph--topology-builder)
 3. [Loading the Environment](#3-loading-the-environment)
 4. [Using the Environment as a Gymnasium Gym](#4-using-the-environment-as-a-gymnasium-gym)
 5. [Training the Attacker (DQN)](#5-training-the-attacker-dqn)
@@ -40,6 +41,21 @@ If you want to use the NVD API to pull live CVSSv3 scores, add your key to `conf
 ```
 
 Without a key the environment falls back to a local SQLite cache (`database/vulnerability-remediation-database.db`).
+
+### What the topology builder needs
+
+The `graph_generator/` tool (Section 2.1) is **self-contained** and has no heavy external dependencies. It needs only:
+
+- **Python 3** and two pip packages — `flask` and `python-jsonschema-objects` — both already listed in `requirements.txt`.
+- The `mal-toolbox` library is **vendored** inside `graph_generator/vendor/`, so there is nothing to `pip install` for it and nothing to clone.
+
+There is **no Java, no MAL compiler (`malc`), no Neo4j, and no external service** involved: the ViolenceLang language ships precompiled as a `.mar` file (`graph_generator/lang/`) and is read in pure Python. You can run the builder fully offline. The heavy PyTorch/PyTorch-Geometric stack is only needed for *training* on the generated graph — not for generating it.
+
+If you only want to author topologies and generate attack graphs (without training), this is enough:
+
+```bash
+pip install flask python-jsonschema-objects
+```
 
 ---
 
@@ -80,6 +96,147 @@ R_impact  = (1 − C') · (1 − I') · (1 − A') · NORM_F
 where `NORM_F_ATTEMPT = 21.147` and `NORM_F = 17.857` normalise the products to a common range.
 
 The **goal node** is the asset the attacker aims to compromise and the defender aims to protect. It is typically the deepest `Access` metaconcept node in the graph.
+
+---
+
+## 2.1 Building Your Own Attack Graph — Topology Builder
+
+You can keep using ready-made attack-graph JSON files exactly as described above. In addition, the `graph_generator/` package lets you **author your own** attack graphs from a high-level network topology, using the ViolenceLang MAL language. The output is the same `{metadata, assets, associations, attackers}` schema the environment loads, so a generated graph is immediately trainable.
+
+### The pipeline
+
+```
+topology spec                violence_generator              RL-ready attack graph
+{onlineHosts,         ──►   (ViolenceLang .mar +      ──►   {metadata, assets,
+ expectedConnections}       vendored mal-toolbox)            associations, attackers}
+                                                             → attack_graphs/<name>.json
+```
+
+### Step 1 — describe your network (topology spec)
+
+A topology is a JSON file listing the online hosts and the directed reachability between them. Each host carries its CVEs and their CVSSv3 vectors:
+
+```json
+{
+  "onlineHosts": [
+    {
+      "id": 1,
+      "hostname": "web",
+      "ip": ["192.168.1.10"],
+      "os": "Linux",
+      "status": "online",
+      "group": "DMZ",
+      "vulnerabilities": [
+        {"cve": "CVE-2021-44228", "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"}
+      ]
+    },
+    {
+      "id": 2,
+      "hostname": "app",
+      "ip": ["192.168.1.20"],
+      "os": "Linux",
+      "status": "online",
+      "group": "APP",
+      "vulnerabilities": [
+        {"cve": "CVE-2024-21851", "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"}
+      ]
+    }
+  ],
+  "expectedConnections": [
+    {"source": 1, "destination": 2}
+  ]
+}
+```
+
+The legacy per-host layout (`hosts` with embedded `connections`) is also accepted and normalised automatically.
+
+The generator turns each CVSSv3 vector into MAL assets and associations using these rules (preserved from the original ViolenceLang generator):
+
+| CVSS condition | Asset created | Association(s) |
+|----------------|---------------|----------------|
+| `AV:L` | `Local` exploit | `AvL` |
+| `AV:N` | `Network` exploit (+ `Internet`) | `AvN`, `HasInternet` |
+| `AV:A` | `Adjacent` exploit | `AvA` |
+| `C:H` (Local / Network) | `Privileges` (Root) | `ViHLN` / `ViHN` |
+| `I:H` or `I:L` (Network) | `Privileges` (User) | `ViHN` |
+| `I:H` (Adjacent) | `Privileges` (Root) | `VcHA` |
+| `AC:H` | `Unsuccesfull` → `Chain` | `AcHl`, `Complex`, `multistage` |
+| `A:H` or `A:L` | `Denial` | `VaHL` |
+| Root privileges gained | `Host` compromise | `Standard` |
+| `expectedConnections` entry | `Access` | `Reachability`, `DoReconOnReachableHost`, `CanExploit` |
+
+### Step 2a — generate with the web app (recommended)
+
+```bash
+# from the repository root
+./graph_generator/run.sh           # then open http://127.0.0.1:5000
+# or:  python -m graph_generator.app
+```
+
+The browser UI lets you:
+
+- add / load / edit hosts and their vulnerabilities, building CVSS vectors from dropdowns;
+- define connections between hosts;
+- **Validate CVEs** against the local database before generating;
+- click **Generate attack graph** — the result is written to `attack_graphs/<scenario_name>.json`, and the topology spec is saved to `graph_generator/topologies/<scenario_name>.json`.
+
+The server is local-only (binds `127.0.0.1`) and does all generation in-process.
+
+### Step 2b — generate from the command line
+
+```bash
+# defaults to attack_graphs/<topology_stem>.json
+python -m graph_generator.violence_generator graph_generator/topologies/sl300_big.json
+
+# explicit output path
+python -m graph_generator.violence_generator my_topology.json -o attack_graphs/my.json
+```
+
+### Step 2c — generate from Python
+
+```python
+from graph_generator.violence_generator import generate_attack_graph
+
+graph = generate_attack_graph(
+    "graph_generator/topologies/my_topology.json",
+    output_path="attack_graphs/my.json",   # omit to get the dict without saving
+)
+print(len(graph["assets"]), "assets,", len(graph["associations"]), "associations")
+```
+
+### Step 3 — train directly on the topology (one step)
+
+The bridge goes from a topology straight to a live environment, optionally saving the intermediate graph for reuse:
+
+```python
+from graph_generator.rl_bridge import build_gym_env_from_topology
+
+env = build_gym_env_from_topology(
+    "graph_generator/topologies/my_topology.json",
+    perspective="attacker",                 # or "defender"
+    save_to="attack_graphs/my.json",
+)
+obs, info = env.reset()
+```
+
+You can then feed `env` to any of the training routines in Sections 5–7.
+
+### Important: CVE coverage in the database
+
+`GraphEnvironment` recomputes each edge's CVSS-weighted reward by looking the CVE up in `database/vulnerability-remediation-database.db` — it does **not** read the CVSS string from the topology directly. A CVE that is missing from the database, or present with an empty `cvss_string`, contributes **no severity weight** to its edges (the edge still exists, but with the default step value).
+
+Check coverage before generating:
+
+```python
+from graph_generator.rl_bridge import validate_cves_against_db
+
+report = validate_cves_against_db("graph_generator/topologies/my_topology.json")
+print("usable:", report["ok"])          # in DB with a CVSS string
+print("empty CVSS:", report["empty_cvss"])
+print("missing:", report["missing"])    # not in the DB at all
+```
+
+The web app exposes the same check via its **Validate CVEs** button.
 
 ---
 

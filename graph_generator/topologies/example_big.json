@@ -1,0 +1,131 @@
+{
+    "configOrigins":"custom_example",
+    "totalNumberOfHosts": 3,
+    "hosts":[
+        {
+            "id":1,
+            "hostname": "Host 1",
+            "vulnerabilities": [
+            {
+                "cve":"CVE-2024-21851",
+                "cvss":"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2024-23109",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2021-34527",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            }
+            ],
+            "connections":[{
+                "source" : 1,
+                "destination": 3
+            },
+            {
+                "source" : 1,
+                "destination": 2
+            }]
+        },
+       {
+            "id":2,
+            "hostname": "Host 2",
+            "vulnerabilities": [
+            {
+                "cve":"CVE-2021-44228",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2021-27190",
+                "cvss":"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2021-26084",
+                "cvss":"CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+            }
+            ],
+            "connections":[
+            {
+                "source" : 2,
+                "destination": 3
+            }
+            ]
+        },
+        {
+            "id":3,
+            "hostname": "Host 3",
+            "vulnerabilities": [
+            {
+                "cve":"CVE-2024-21851",
+                "cvss":"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2024-23109",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2021-34527",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            }
+            ],
+            "connections":[
+            {
+                "source" : 3,
+                "destination" : 4
+            }
+            ]
+        },
+        {
+            "id":4,
+            "hostname": "Host 4",
+            "vulnerabilities": [
+            {
+                "cve":"CVE-2024-21851",
+                "cvss":"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2024-23109",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2021-34527",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            }
+            ],
+            "connections":[
+                {
+                    "source" : 4,
+                    "destination" : 1
+                },
+                {
+                    "source" : 4,
+                    "destination" : 5
+                }
+            ]
+        },
+        {
+            "id":5,
+            "hostname": "Host 5",
+            "vulnerabilities": [
+            {
+                "cve":"CVE-2024-21851",
+                "cvss":"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2024-23109",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            },
+            {
+                "cve":"CVE-2021-34527",
+                "cvss":"CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+            }
+            ],
+            "connections":[
+            ]
+        }
+
+
+
+    ] 
+}

@@ -1,0 +1,62 @@
+{
+  "onlineHosts": [
+    {
+      "id": 1,
+      "hostname": "web",
+      "ip": [
+        "192.168.1.10"
+      ],
+      "os": "Linux",
+      "status": "online",
+      "group": "DMZ",
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2021-44228",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "hostname": "app",
+      "ip": [
+        "192.168.1.20"
+      ],
+      "os": "Linux",
+      "status": "online",
+      "group": "APP",
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2024-21851",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "hostname": "db",
+      "ip": [
+        "192.168.1.30"
+      ],
+      "os": "Linux",
+      "status": "online",
+      "group": "DATA",
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2024-30078",
+          "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+      ]
+    }
+  ],
+  "expectedConnections": [
+    {
+      "source": 1,
+      "destination": 2
+    },
+    {
+      "source": 2,
+      "destination": 3
+    }
+  ]
+}

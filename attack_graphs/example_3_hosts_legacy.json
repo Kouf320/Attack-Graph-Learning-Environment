@@ -1,0 +1,652 @@
+{
+  "metadata": {
+    "name": "ViolenceLang Model (integrated generator)",
+    "langVersion": "1.0.0",
+    "langID": "org.mal-lang.Violencelang",
+    "malVersion": "0.1.0-SNAPSHOT",
+    "info": "Created by the mal-toolbox model python module."
+  },
+  "assets": {
+    "0": {
+      "name": "Reconnaissance_on_[NoIP]",
+      "metaconcept": "Scan",
+      "eid": "0",
+      "defenses": {}
+    },
+    "1": {
+      "name": "CVE-2024-21851_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "1",
+      "defenses": {}
+    },
+    "2": {
+      "name": "LocalExploit_[NoIP]",
+      "metaconcept": "Local",
+      "eid": "2",
+      "defenses": {}
+    },
+    "3": {
+      "name": "Root_on_Host_[NoIP]",
+      "metaconcept": "Privileges",
+      "eid": "3",
+      "defenses": {}
+    },
+    "4": {
+      "name": "DenialOfService_[NoIP]_A_H",
+      "metaconcept": "Denial",
+      "eid": "4",
+      "defenses": {}
+    },
+    "5": {
+      "name": "Host_Compromise_[NoIP]",
+      "metaconcept": "Host",
+      "eid": "5",
+      "defenses": {}
+    },
+    "6": {
+      "name": "CVE-2024-23109_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "6",
+      "defenses": {}
+    },
+    "7": {
+      "name": "NetworkExploit_[NoIP]",
+      "metaconcept": "Network",
+      "eid": "7",
+      "defenses": {}
+    },
+    "8": {
+      "name": "InternetAccessFor_[NoIP]",
+      "metaconcept": "Internet",
+      "eid": "8",
+      "defenses": {}
+    },
+    "9": {
+      "name": "CVE-2021-34527_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "9",
+      "defenses": {}
+    },
+    "10": {
+      "name": "Reconnaissance_on_[NoIP]",
+      "metaconcept": "Scan",
+      "eid": "10",
+      "defenses": {}
+    },
+    "11": {
+      "name": "CVE-2021-44228_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "11",
+      "defenses": {}
+    },
+    "12": {
+      "name": "NetworkExploit_[NoIP]",
+      "metaconcept": "Network",
+      "eid": "12",
+      "defenses": {}
+    },
+    "13": {
+      "name": "InternetAccessFor_[NoIP]",
+      "metaconcept": "Internet",
+      "eid": "13",
+      "defenses": {}
+    },
+    "14": {
+      "name": "Root_on_Host_[NoIP]",
+      "metaconcept": "Privileges",
+      "eid": "14",
+      "defenses": {}
+    },
+    "15": {
+      "name": "Host_Compromise_[NoIP]",
+      "metaconcept": "Host",
+      "eid": "15",
+      "defenses": {}
+    },
+    "16": {
+      "name": "CVE-2021-27190_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "16",
+      "defenses": {}
+    },
+    "17": {
+      "name": "LocalExploit_[NoIP]",
+      "metaconcept": "Local",
+      "eid": "17",
+      "defenses": {}
+    },
+    "18": {
+      "name": "DenialOfService_[NoIP]_A_H",
+      "metaconcept": "Denial",
+      "eid": "18",
+      "defenses": {}
+    },
+    "19": {
+      "name": "CVE-2021-26084_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "19",
+      "defenses": {}
+    },
+    "20": {
+      "name": "Reconnaissance_on_[NoIP]",
+      "metaconcept": "Scan",
+      "eid": "20",
+      "defenses": {}
+    },
+    "21": {
+      "name": "CVE-2024-21851_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "21",
+      "defenses": {}
+    },
+    "22": {
+      "name": "LocalExploit_[NoIP]",
+      "metaconcept": "Local",
+      "eid": "22",
+      "defenses": {}
+    },
+    "23": {
+      "name": "Root_on_Host_[NoIP]",
+      "metaconcept": "Privileges",
+      "eid": "23",
+      "defenses": {}
+    },
+    "24": {
+      "name": "DenialOfService_[NoIP]_A_H",
+      "metaconcept": "Denial",
+      "eid": "24",
+      "defenses": {}
+    },
+    "25": {
+      "name": "Host_Compromise_[NoIP]",
+      "metaconcept": "Host",
+      "eid": "25",
+      "defenses": {}
+    },
+    "26": {
+      "name": "CVE-2024-23109_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "26",
+      "defenses": {}
+    },
+    "27": {
+      "name": "NetworkExploit_[NoIP]",
+      "metaconcept": "Network",
+      "eid": "27",
+      "defenses": {}
+    },
+    "28": {
+      "name": "InternetAccessFor_[NoIP]",
+      "metaconcept": "Internet",
+      "eid": "28",
+      "defenses": {}
+    },
+    "29": {
+      "name": "CVE-2021-34527_[NoIP]",
+      "metaconcept": "Vulnerability",
+      "eid": "29",
+      "defenses": {}
+    },
+    "30": {
+      "name": "Access_to_NoIP_from_NoIP",
+      "metaconcept": "Access",
+      "eid": "30",
+      "defenses": {}
+    },
+    "31": {
+      "name": "Access_to_NoIP_from_NoIP",
+      "metaconcept": "Access",
+      "eid": "31",
+      "defenses": {}
+    },
+    "32": {
+      "name": "Access_to_NoIP_from_NoIP",
+      "metaconcept": "Access",
+      "eid": "32",
+      "defenses": {}
+    }
+  },
+  "associations": [
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "0"
+        ],
+        "vulns": [
+          "1"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvL",
+      "association": {
+        "vulns": [
+          "1"
+        ],
+        "lexploits": [
+          "2"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHLN",
+      "association": {
+        "lexploits": [
+          "2"
+        ],
+        "privesc": [
+          "3"
+        ]
+      }
+    },
+    {
+      "metaconcept": "VaHL",
+      "association": {
+        "lexploits": [
+          "2"
+        ],
+        "ddosattacks": [
+          "4"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Standard",
+      "association": {
+        "privesc": [
+          "3"
+        ],
+        "compromises": [
+          "5"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "0"
+        ],
+        "vulns": [
+          "6"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvN",
+      "association": {
+        "vulns": [
+          "6"
+        ],
+        "nexploits": [
+          "7"
+        ]
+      }
+    },
+    {
+      "metaconcept": "HasInternet",
+      "association": {
+        "globalconnections": [
+          "8"
+        ],
+        "nexploits": [
+          "7"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHN",
+      "association": {
+        "nexploits": [
+          "7"
+        ],
+        "privesc": [
+          "3"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "0"
+        ],
+        "vulns": [
+          "9"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvN",
+      "association": {
+        "vulns": [
+          "9"
+        ],
+        "nexploits": [
+          "7"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "10"
+        ],
+        "vulns": [
+          "11"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvN",
+      "association": {
+        "vulns": [
+          "11"
+        ],
+        "nexploits": [
+          "12"
+        ]
+      }
+    },
+    {
+      "metaconcept": "HasInternet",
+      "association": {
+        "globalconnections": [
+          "13"
+        ],
+        "nexploits": [
+          "12"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHN",
+      "association": {
+        "nexploits": [
+          "12"
+        ],
+        "privesc": [
+          "14"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Standard",
+      "association": {
+        "privesc": [
+          "14"
+        ],
+        "compromises": [
+          "15"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "10"
+        ],
+        "vulns": [
+          "16"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvL",
+      "association": {
+        "vulns": [
+          "16"
+        ],
+        "lexploits": [
+          "17"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHLN",
+      "association": {
+        "lexploits": [
+          "17"
+        ],
+        "privesc": [
+          "14"
+        ]
+      }
+    },
+    {
+      "metaconcept": "VaHL",
+      "association": {
+        "lexploits": [
+          "17"
+        ],
+        "ddosattacks": [
+          "18"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "10"
+        ],
+        "vulns": [
+          "19"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvL",
+      "association": {
+        "vulns": [
+          "19"
+        ],
+        "lexploits": [
+          "17"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "20"
+        ],
+        "vulns": [
+          "21"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvL",
+      "association": {
+        "vulns": [
+          "21"
+        ],
+        "lexploits": [
+          "22"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHLN",
+      "association": {
+        "lexploits": [
+          "22"
+        ],
+        "privesc": [
+          "23"
+        ]
+      }
+    },
+    {
+      "metaconcept": "VaHL",
+      "association": {
+        "lexploits": [
+          "22"
+        ],
+        "ddosattacks": [
+          "24"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Standard",
+      "association": {
+        "privesc": [
+          "23"
+        ],
+        "compromises": [
+          "25"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "20"
+        ],
+        "vulns": [
+          "26"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvN",
+      "association": {
+        "vulns": [
+          "26"
+        ],
+        "nexploits": [
+          "27"
+        ]
+      }
+    },
+    {
+      "metaconcept": "HasInternet",
+      "association": {
+        "globalconnections": [
+          "28"
+        ],
+        "nexploits": [
+          "27"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHN",
+      "association": {
+        "nexploits": [
+          "27"
+        ],
+        "privesc": [
+          "23"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "20"
+        ],
+        "vulns": [
+          "29"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvN",
+      "association": {
+        "vulns": [
+          "29"
+        ],
+        "nexploits": [
+          "27"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Reachability",
+      "association": {
+        "compromises": [
+          "5"
+        ],
+        "accesses": [
+          "30"
+        ]
+      }
+    },
+    {
+      "metaconcept": "DoReconOnReachableHost",
+      "association": {
+        "accesses": [
+          "30"
+        ],
+        "scans": [
+          "20"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Reachability",
+      "association": {
+        "compromises": [
+          "5"
+        ],
+        "accesses": [
+          "31"
+        ]
+      }
+    },
+    {
+      "metaconcept": "DoReconOnReachableHost",
+      "association": {
+        "accesses": [
+          "31"
+        ],
+        "scans": [
+          "10"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Reachability",
+      "association": {
+        "compromises": [
+          "15"
+        ],
+        "accesses": [
+          "32"
+        ]
+      }
+    },
+    {
+      "metaconcept": "DoReconOnReachableHost",
+      "association": {
+        "accesses": [
+          "32"
+        ],
+        "scans": [
+          "20"
+        ]
+      }
+    }
+  ],
+  "attackers": {
+    "33": {
+      "name": "Attacker:33",
+      "entry_points": {
+        "0": {
+          "attack_steps": [
+            "Scan"
+          ]
+        }
+      }
+    }
+  }
+}

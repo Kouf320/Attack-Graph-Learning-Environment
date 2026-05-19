@@ -1,0 +1,9 @@
+{
+  "onlineHosts": [
+    {"id":1,"hostname":"host1","ip":["10.0.0.1"],"os":"Linux","status":"online","group":"A",
+     "vulnerabilities":[{"cve":"CVE-2024-23109","cvss":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"}]},
+    {"id":2,"hostname":"host2","ip":["10.0.0.2"],"os":"Linux","status":"online","group":"A",
+     "vulnerabilities":[{"cve":"CVE-2024-21851","cvss":"CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"}]}
+  ],
+  "expectedConnections":[{"source":1,"destination":2}]
+}

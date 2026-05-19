@@ -1,0 +1,905 @@
+{
+    "onlineHosts": [
+        {
+            "id": 1,
+            "hostname": "host1",
+            "ip": ["192.168.3.49"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2025-27480",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2025-26663",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "hostname": "host2",
+            "ip": ["192.168.3.51"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2021-34527",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "hostname": "host3",
+            "ip": ["192.168.3.12"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-36025",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-23397",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-21413",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-29988",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+                },
+                {
+                    "cve": "CVE-2023-36874",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-28252",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "hostname": "host4",
+            "ip": ["192.168.3.13"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-1086",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "hostname": "host5",
+            "ip": ["192.168.3.14"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-36025",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-23397",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-21413",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-29988",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+                },
+                {
+                    "cve": "CVE-2023-36874",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "hostname": "host6",
+            "ip": ["192.168.3.15"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-32233",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-6246",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-2961",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-38545",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "hostname": "host7",
+            "ip": ["192.168.3.16"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "hostname": "host8",
+            "ip": ["192.168.3.17"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "hostname": "host9",
+            "ip": ["192.168.3.18"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-36025",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "hostname": "host10",
+            "ip": ["192.168.3.19"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-1086",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "hostname": "host11",
+            "ip": ["192.168.3.21"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "hostname": "host12",
+            "ip": ["192.168.3.22"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "hostname": "host13",
+            "ip": ["192.168.3.23"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "hostname": "host14",
+            "ip": ["192.168.3.24"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "hostname": "host15",
+            "ip": ["192.168.3.25"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-36025",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "hostname": "host16",
+            "ip": ["192.168.3.26"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "hostname": "host17",
+            "ip": ["192.168.3.27"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "hostname": "host18",
+            "ip": ["192.168.3.28"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "hostname": "host19",
+            "ip": ["192.168.3.29"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "hostname": "host20",
+            "ip": ["192.168.3.30"],
+            "os": "Windows",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "hostname": "media-pc",
+            "ip": ["192.168.3.8"],
+            "os": "Linux",
+            "status": "online",
+            "group": "CLIENTS",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2023-1382",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "hostname": "fx1-radio",
+            "ip": ["192.168.2.11"],
+            "os": "Linux",
+            "status": "online",
+            "group": "RADIO",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "hostname": "fx2-radio",
+            "ip": ["192.168.2.12"],
+            "os": "Linux",
+            "status": "online",
+            "group": "RADIO",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "hostname": "fx3-radio",
+            "ip": ["192.168.2.13"],
+            "os": "Linux",
+            "status": "online",
+            "group": "RADIO",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-32233",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "hostname": "elk",
+            "ip": ["192.168.17.1", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2021-44228",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-52981",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
+                },
+                {
+                    "cve": "CVE-2023-5378",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "hostname": "logstash",
+            "ip": ["192.168.17.2", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-47561",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2025-37730",
+                    "cvss": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "hostname": "hadoop",
+            "ip": ["192.168.17.3", "192.168.4.1"],
+            "os": "Linux",
+            "status": "compromised",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2022-25168",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "hostname": "research1",
+            "ip": ["192.168.17.4", "192.168.4.1"],
+            "os": "Linux",
+            "status": "compromised",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-1086",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "hostname": "research2",
+            "ip": ["192.168.17.52", "192.168.4.1"],
+            "os": "Linux",
+            "status": "compromised",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "hostname": "import-clients",
+            "ip": ["192.168.17.6", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "hostname": "import-ext",
+            "ip": ["192.168.17.7", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-32233",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "hostname": "export-redis",
+            "ip": ["192.168.17.72", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-31449",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-41056",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "hostname": "import-redis",
+            "ip": ["192.168.17.71", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-31449",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "hostname": "storm-nimbus",
+            "ip": ["192.168.17.9", "192.168.4.1"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SOC",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2021-40865",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2021-38294",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "hostname": "proxy-server",
+            "ip": ["192.168.4.20"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2025-1974",
+                    "cvss": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2022-40303",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "hostname": "dns",
+            "ip": ["192.168.4.44"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-12705",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+                },
+                {
+                    "cve": "CVE-2023-2828",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "hostname": "dc",
+            "ip": ["192.168.4.5"],
+            "os": "Windows",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2025-21368",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2025-29809",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+                },
+                {
+                    "cve": "CVE-2021-42287",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-30078",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-26169",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-36025",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-23397",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-21413",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "hostname": "mail",
+            "ip": ["192.168.4.12"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2023-51765",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+                },
+                {
+                    "cve": "CVE-2023-38545",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "hostname": "media",
+            "ip": ["192.168.4.16"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 40,
+            "hostname": "monitor",
+            "ip": ["192.168.4.22"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2022-35229",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 41,
+            "hostname": "tftp",
+            "ip": ["192.168.4.15"],
+            "os": "Linux",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2019-13360",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+                }
+            ]
+        },
+        {
+            "id": 42,
+            "hostname": "wsus",
+            "ip": ["192.168.4.48"],
+            "os": "Windows",
+            "status": "online",
+            "group": "SRV",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2025-29824",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2020-1013",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "hostname": "fw-ext",
+            "ip": ["192.168.1.1", "192.168.2.1", "192.168.3.1", "192.168.4.1", "192.168.17.1", "52.41.202.1"],
+            "os": "FirewallOS",
+            "status": "online",
+            "group": "GATEWAY",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2025-2767",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-29552",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4863",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-38408",
+                    "cvss": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2022-31814",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-27524",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-21893",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        },
+        {
+            "id": 44,
+            "hostname": "web-server",
+            "ip": ["52.41.202.34"],
+            "os": "Linux",
+            "status": "online",
+            "group": "EXTERNAL",
+            "vulnerabilities": [
+                {
+                    "cve": "CVE-2024-40725",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+                },
+                {
+                    "cve": "CVE-2022-31813",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+                },
+                {
+                    "cve": "CVE-2023-25690",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-0193",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-4911",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-32233",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2023-6246",
+                    "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+                },
+                {
+                    "cve": "CVE-2024-2961",
+                    "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+                }
+            ]
+        }
+    ],
+    "expectedConnections": [
+        { "source": 1, "destination": 37 },
+        { "source": 4, "destination": 35 },
+        { "source": 38, "destination": 25 },
+        { "source": 26, "destination": 25 },
+        { "source": 2, "destination": 42 },
+        { "source": 5, "destination": 44 },
+        { "source": 22, "destination": 30 },
+        { "source": 32, "destination": 33 },
+        { "source": 21, "destination": 39 },
+        { "source": 40, "destination": 36 },
+        { "source": 27, "destination": 34 },
+        { "source": 3, "destination": 38 },
+        { "source": 10, "destination": 44 },
+        { "source": 15, "destination": 37 },
+        { "source": 25, "destination": 44 }
+    ]
+}

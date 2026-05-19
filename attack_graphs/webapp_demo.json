@@ -1,0 +1,348 @@
+{
+  "metadata": {
+    "name": "ViolenceLang Model :: webapp_demo (2026-05-19 22:41)",
+    "langVersion": "1.0.0",
+    "langID": "org.mal-lang.Violencelang",
+    "malVersion": "0.1.0-SNAPSHOT",
+    "info": "Created by the mal-toolbox model python module."
+  },
+  "assets": {
+    "0": {
+      "name": "Reconnaissance_on_[192.168.1.10]",
+      "metaconcept": "Scan",
+      "eid": "0",
+      "defenses": {}
+    },
+    "1": {
+      "name": "CVE-2021-44228_[192.168.1.10]",
+      "metaconcept": "Vulnerability",
+      "eid": "1",
+      "defenses": {}
+    },
+    "2": {
+      "name": "NetworkExploit_[192.168.1.10]",
+      "metaconcept": "Network",
+      "eid": "2",
+      "defenses": {}
+    },
+    "3": {
+      "name": "InternetAccessFor_[192.168.1.10]",
+      "metaconcept": "Internet",
+      "eid": "3",
+      "defenses": {}
+    },
+    "4": {
+      "name": "Root_on_Host_[192.168.1.10]",
+      "metaconcept": "Privileges",
+      "eid": "4",
+      "defenses": {}
+    },
+    "5": {
+      "name": "Host_Compromise_[192.168.1.10]",
+      "metaconcept": "Host",
+      "eid": "5",
+      "defenses": {}
+    },
+    "6": {
+      "name": "Reconnaissance_on_[192.168.1.20]",
+      "metaconcept": "Scan",
+      "eid": "6",
+      "defenses": {}
+    },
+    "7": {
+      "name": "CVE-2024-21851_[192.168.1.20]",
+      "metaconcept": "Vulnerability",
+      "eid": "7",
+      "defenses": {}
+    },
+    "8": {
+      "name": "LocalExploit_[192.168.1.20]",
+      "metaconcept": "Local",
+      "eid": "8",
+      "defenses": {}
+    },
+    "9": {
+      "name": "Root_on_Host_[192.168.1.20]",
+      "metaconcept": "Privileges",
+      "eid": "9",
+      "defenses": {}
+    },
+    "10": {
+      "name": "DenialOfService_[192.168.1.20]_A_H",
+      "metaconcept": "Denial",
+      "eid": "10",
+      "defenses": {}
+    },
+    "11": {
+      "name": "Host_Compromise_[192.168.1.20]",
+      "metaconcept": "Host",
+      "eid": "11",
+      "defenses": {}
+    },
+    "12": {
+      "name": "Reconnaissance_on_[192.168.1.30]",
+      "metaconcept": "Scan",
+      "eid": "12",
+      "defenses": {}
+    },
+    "13": {
+      "name": "CVE-2024-30078_[192.168.1.30]",
+      "metaconcept": "Vulnerability",
+      "eid": "13",
+      "defenses": {}
+    },
+    "14": {
+      "name": "AdjacentExploit_[192.168.1.30]",
+      "metaconcept": "Adjacent",
+      "eid": "14",
+      "defenses": {}
+    },
+    "15": {
+      "name": "Root_on_Host_[192.168.1.30]",
+      "metaconcept": "Privileges",
+      "eid": "15",
+      "defenses": {}
+    },
+    "16": {
+      "name": "Host_Compromise_[192.168.1.30]",
+      "metaconcept": "Host",
+      "eid": "16",
+      "defenses": {}
+    },
+    "17": {
+      "name": "Access_to_192.168.1.20_from_192.168.1.10",
+      "metaconcept": "Access",
+      "eid": "17",
+      "defenses": {}
+    },
+    "18": {
+      "name": "Access_to_192.168.1.30_from_192.168.1.20",
+      "metaconcept": "Access",
+      "eid": "18",
+      "defenses": {}
+    }
+  },
+  "associations": [
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "0"
+        ],
+        "vulns": [
+          "1"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvN",
+      "association": {
+        "vulns": [
+          "1"
+        ],
+        "nexploits": [
+          "2"
+        ]
+      }
+    },
+    {
+      "metaconcept": "HasInternet",
+      "association": {
+        "globalconnections": [
+          "3"
+        ],
+        "nexploits": [
+          "2"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHN",
+      "association": {
+        "nexploits": [
+          "2"
+        ],
+        "privesc": [
+          "4"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Standard",
+      "association": {
+        "privesc": [
+          "4"
+        ],
+        "compromises": [
+          "5"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "6"
+        ],
+        "vulns": [
+          "7"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvL",
+      "association": {
+        "vulns": [
+          "7"
+        ],
+        "lexploits": [
+          "8"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ViHLN",
+      "association": {
+        "lexploits": [
+          "8"
+        ],
+        "privesc": [
+          "9"
+        ]
+      }
+    },
+    {
+      "metaconcept": "VaHL",
+      "association": {
+        "lexploits": [
+          "8"
+        ],
+        "ddosattacks": [
+          "10"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Standard",
+      "association": {
+        "privesc": [
+          "9"
+        ],
+        "compromises": [
+          "11"
+        ]
+      }
+    },
+    {
+      "metaconcept": "ReconInit",
+      "association": {
+        "scans": [
+          "12"
+        ],
+        "vulns": [
+          "13"
+        ]
+      }
+    },
+    {
+      "metaconcept": "AvA",
+      "association": {
+        "vulns": [
+          "13"
+        ],
+        "aexploits": [
+          "14"
+        ]
+      }
+    },
+    {
+      "metaconcept": "VcHA",
+      "association": {
+        "aexploits": [
+          "14"
+        ],
+        "privesc": [
+          "15"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Standard",
+      "association": {
+        "privesc": [
+          "15"
+        ],
+        "compromises": [
+          "16"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Reachability",
+      "association": {
+        "compromises": [
+          "5"
+        ],
+        "accesses": [
+          "17"
+        ]
+      }
+    },
+    {
+      "metaconcept": "DoReconOnReachableHost",
+      "association": {
+        "accesses": [
+          "17"
+        ],
+        "scans": [
+          "6"
+        ]
+      }
+    },
+    {
+      "metaconcept": "Reachability",
+      "association": {
+        "compromises": [
+          "11"
+        ],
+        "accesses": [
+          "18"
+        ]
+      }
+    },
+    {
+      "metaconcept": "DoReconOnReachableHost",
+      "association": {
+        "accesses": [
+          "18"
+        ],
+        "scans": [
+          "12"
+        ]
+      }
+    },
+    {
+      "metaconcept": "CanExploit",
+      "association": {
+        "accesses": [
+          "18"
+        ],
+        "aexploits": [
+          "14"
+        ]
+      }
+    }
+  ],
+  "attackers": {
+    "19": {
+      "name": "Attacker:19",
+      "entry_points": {
+        "0": {
+          "attack_steps": [
+            "Scan"
+          ]
+        }
+      }
+    }
+  }
+}
