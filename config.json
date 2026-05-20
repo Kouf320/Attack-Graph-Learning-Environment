@@ -12,7 +12,7 @@
     "epsilon_end": 0.05,
     "epsilon_decay": 2000,
     "gamma": 0.99,
-    "lr": 1e-4,
+    "lr": 0.0001,
     "batch_size": 128,
     "memory_capacity": 100000,
     "tau": 0.005,
@@ -41,5 +41,22 @@
     "defender_model": "policy-models/defender/ac_defender.pth",
     "logs": "logs/",
     "database": "database/vulnerability-remediation-database.db"
+  },
+  "alert_generator": {
+    "false_positive_rate": 0.1,
+    "generator_kwargs": {
+      "step_duration": 1.0,
+      "hawkes_mu": 0.3,
+      "hawkes_alpha": 1.2,
+      "hawkes_beta": 1.5,
+      "fp_volume_scale": 1.0,
+      "fp_concentration": 0.65,
+      "fp_zipf_exponent": 1.0,
+      "fp_noisy_fraction": 0.3,
+      "enable_clustering": true,
+      "enable_timing": true,
+      "enable_thinning": true,
+      "enable_fp_concentration": true
+    }
   }
 }

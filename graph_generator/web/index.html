@@ -173,6 +173,39 @@
   @keyframes sp{to{transform:rotate(360deg)}}
   .empty{color:var(--muted);font-style:italic;padding:8px 2px}
   .divider{height:1px;background:var(--line);margin:16px 0}
+  /* ---------- topology visualization ---------- */
+  .viz-panel{grid-column:1 / -1}
+  .topo-toolbar{display:flex;gap:8px;align-items:center}
+  .topo-wrap{position:relative}
+  #topoSvg{display:block;width:100%;height:460px;border-radius:var(--radius-sm);
+    background:
+      radial-gradient(900px 380px at 50% -12%, rgba(194,187,224,.14), transparent 60%),
+      radial-gradient(700px 360px at 100% 110%, rgba(227,185,198,.12), transparent 60%),
+      linear-gradient(180deg,#fbfdfc,#f1f6f5);
+    cursor:grab;touch-action:none}
+  #topoSvg.grabbing{cursor:grabbing}
+  .topo-edge{stroke:var(--lavender-deep);stroke-opacity:.45;stroke-width:1.6;transition:stroke-opacity .12s}
+  .topo-edge.hl{stroke:var(--teal-deep);stroke-opacity:.95;stroke-width:2.6}
+  .topo-node circle.body{cursor:pointer}
+  .topo-node text.lbl{font-family:var(--sans);font-size:11px;fill:var(--ink);font-weight:500;pointer-events:none}
+  .topo-node circle.badge{fill:var(--blush-deep)}
+  .topo-node text.badge-t{fill:#fff;font-size:9px;font-weight:700;pointer-events:none}
+  .topo-empty{fill:var(--muted);font-family:var(--serif);font-style:italic;font-size:15px}
+  .topo-tip{position:absolute;pointer-events:none;z-index:25;min-width:190px;max-width:300px;
+    background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);
+    padding:11px 13px;font-size:12.5px;opacity:0;transform:translateY(5px);transition:opacity .12s,transform .12s;display:none}
+  .topo-tip.show{opacity:1;transform:translateY(0);display:block}
+  .topo-tip h4{margin:0 0 5px;font-family:var(--serif);font-size:14.5px;font-weight:600}
+  .topo-tip .meta{color:var(--muted);font-size:11.5px;margin-bottom:6px}
+  .topo-tip .cve-h{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-top:7px}
+  .topo-tip .cve{display:flex;flex-direction:column;gap:4px;margin-top:5px}
+  .topo-tip .cve .row{background:var(--surface-soft);border:1px solid var(--line);border-radius:6px;padding:4px 7px}
+  .topo-tip .cve .id{font-weight:600;font-size:11.5px}
+  .topo-tip .cve .vec{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--teal-deep);word-break:break-all}
+  .topo-legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:11.5px;margin-top:10px}
+  .topo-legend .lg{display:inline-flex;align-items:center;gap:6px}
+  .lg-dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .lg-line{width:18px;height:0;border-top:2px solid var(--lavender-deep);display:inline-block}
 </style>
 </head>
 <body>
@@ -185,6 +218,48 @@
 </header>
 
 <main>
+  <!-- FULL WIDTH: interactive topology visualization -->
+  <div class="panel viz-panel">
+    <div class="phead">
+      <h2>Network topology</h2>
+      <div class="topo-toolbar">
+        <span class="hint" id="topoMeta"></span>
+        <button class="btn small" id="topoFit">Fit view</button>
+        <button class="btn small" id="topoRelayout">Re-layout</button>
+      </div>
+    </div>
+    <div class="pbody">
+      <div class="topo-wrap">
+        <svg id="topoSvg" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="topoArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#9a91c4"></path>
+            </marker>
+            <marker id="topoArrowHl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#3f817b"></path>
+            </marker>
+            <radialGradient id="topoNodeFill" cx="35%" cy="28%" r="80%">
+              <stop offset="0%" stop-color="#ecfbf9"></stop>
+              <stop offset="55%" stop-color="#9fd8d2"></stop>
+              <stop offset="100%" stop-color="#5fa9a3"></stop>
+            </radialGradient>
+          </defs>
+          <g id="topoZoom">
+            <g id="topoEdges"></g>
+            <g id="topoNodes"></g>
+          </g>
+        </svg>
+        <div class="topo-tip" id="topoTip"></div>
+      </div>
+      <div class="topo-legend">
+        <span class="lg"><span class="lg-dot" style="background:radial-gradient(circle at 35% 30%,#ecfbf9,#5fa9a3)"></span> host</span>
+        <span class="lg"><span class="lg-dot" style="background:var(--blush-deep)"></span> CVE count</span>
+        <span class="lg"><span class="lg-line"></span> connection (arrow = direction)</span>
+        <span class="lg" style="margin-left:auto">hover a host for details · drag to move · scroll to zoom</span>
+      </div>
+    </div>
+  </div>
+
   <!-- LEFT: hosts -->
   <div class="col">
     <div class="panel">
@@ -304,6 +379,7 @@ const connList = document.getElementById("connList");
 
 function render(){
   renderHosts(); renderConns(); renderPreview();
+  Topo.sync();
   document.getElementById("hostCount").textContent = state.hosts.length + (state.hosts.length===1?" host":" hosts");
 }
 
@@ -395,6 +471,7 @@ function renderPreview(){
   document.getElementById("jsonPreview").innerHTML = colorJson(topo);
   document.getElementById("previewMeta").textContent =
     `${topo.onlineHosts.length} hosts · ${topo.expectedConnections.length} connections`;
+  Topo.refresh();
 }
 
 /* ============================================================= build ====== */
@@ -665,6 +742,270 @@ function colorJson(obj){
     .replace(/:\s*(true|false|null)/g,': <span class="b">$1</span>');
 }
 
+/* ====================================================== topology view ===== */
+/* Dependency-free force-directed renderer (spring-electrical model) with
+   hover tooltips, node dragging, wheel-zoom and background pan. Fully offline. */
+const Topo = (function(){
+  let svg, gZoom, gEdges, gNodes, tip, wrap, meta;
+  let nodes = [];                 // {id, x, y, vx, vy, r, host}
+  let edges = [];                 // {s, t}
+  const posById = new Map();      // persist positions across edits
+  let W = 600, H = 460;
+  let view = { k: 1, x: 0, y: 0 };
+  let alpha = 0, raf = null;
+  let dragNode = null, panning = false, last = null, hoverId = null;
+  let structKey = "", fitted = false;
+
+  function init(){
+    svg = document.getElementById("topoSvg");
+    gZoom = document.getElementById("topoZoom");
+    gEdges = document.getElementById("topoEdges");
+    gNodes = document.getElementById("topoNodes");
+    tip = document.getElementById("topoTip");
+    wrap = svg.parentElement;
+    meta = document.getElementById("topoMeta");
+    sizeToBox();
+    svg.addEventListener("pointerdown", onDown);
+    svg.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    svg.addEventListener("pointerleave", ()=>{ hideTip(); });
+    svg.addEventListener("wheel", onWheel, { passive:false });
+    document.getElementById("topoFit").onclick = ()=>fit(true);
+    document.getElementById("topoRelayout").onclick = relayout;
+    window.addEventListener("resize", ()=>{ sizeToBox(); draw(); });
+  }
+
+  function sizeToBox(){
+    const r = svg.getBoundingClientRect();
+    W = Math.max(320, r.width); H = Math.max(280, r.height);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  }
+
+  /* ---- screen <-> graph coordinate mapping ---- */
+  function toGraph(clientX, clientY){
+    const r = svg.getBoundingClientRect();
+    const sx = clientX - r.left, sy = clientY - r.top;
+    return { x: (sx - view.x) / view.k, y: (sy - view.y) / view.k };
+  }
+
+  function radiusFor(host){
+    const n = (host.vulns || []).filter(v => String(v.cve || "").trim()).length;
+    return 15 + Math.min(n, 8) * 1.6;
+  }
+
+  /* ---- (re)build node/edge sets from app state ---- */
+  function sync(){
+    if(!svg) return;
+    sizeToBox();
+    const hosts = state.hosts;
+    const idset = new Set(hosts.map(h => String(h.id)));
+    hosts.forEach(h => {
+      const id = String(h.id);
+      if(!posById.has(id))
+        posById.set(id, { x: W/2 + (Math.random()-.5)*160, y: H/2 + (Math.random()-.5)*160 });
+    });
+    nodes = hosts.map(h => {
+      const id = String(h.id), p = posById.get(id);
+      return { id, x: p.x, y: p.y, vx: 0, vy: 0, r: radiusFor(h), host: h };
+    });
+    const nb = new Map(nodes.map(n => [n.id, n]));
+    edges = state.connections
+      .filter(c => nb.has(String(c.source)) && nb.has(String(c.destination)) &&
+                   String(c.source) !== String(c.destination))
+      .map(c => ({ s: String(c.source), t: String(c.destination) }));
+
+    const key = nodes.map(n => n.id).sort().join(",") + "|" +
+                edges.map(e => e.s+">"+e.t).sort().join(",");
+    if(key !== structKey){               // structure changed → settle + fit
+      structKey = key;
+      for(let i=0;i<90;i++) physics(1);   // synchronous warm-up = instant clean layout
+      if(!fitted || nodes.length){ fit(false); fitted = true; }
+      reheat();
+    } else {
+      draw();                            // same structure → just redraw (labels/badges)
+    }
+  }
+
+  /* ---- lightweight redraw when only host attributes changed ---- */
+  function refresh(){
+    if(!svg || !nodes.length) { if(svg) draw(); return; }
+    const byId = new Map(state.hosts.map(h => [String(h.id), h]));
+    nodes.forEach(n => { const h = byId.get(n.id); if(h){ n.host = h; n.r = radiusFor(h); } });
+    draw();
+  }
+
+  function reheat(){ alpha = Math.max(alpha, 0.5); if(!raf) raf = requestAnimationFrame(loop); }
+
+  function physics(scale){
+    const kRep = 2600, kSpring = 0.04, L = 130, kGrav = 0.018;
+    for(let i=0;i<nodes.length;i++){
+      const a = nodes[i];
+      for(let j=i+1;j<nodes.length;j++){
+        const b = nodes[j];
+        let dx = a.x-b.x, dy = a.y-b.y, d2 = dx*dx+dy*dy || 0.01, d = Math.sqrt(d2);
+        const f = kRep / d2, fx = f*dx/d, fy = f*dy/d;
+        a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+      }
+      a.vx += (W/2 - a.x) * kGrav; a.vy += (H/2 - a.y) * kGrav;
+    }
+    const byId = new Map(nodes.map(n => [n.id, n]));
+    edges.forEach(e => {
+      const a = byId.get(e.s), b = byId.get(e.t); if(!a||!b) return;
+      let dx = b.x-a.x, dy = b.y-a.y, d = Math.hypot(dx,dy) || 0.01;
+      const f = kSpring*(d-L), fx = f*dx/d, fy = f*dy/d;
+      a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+    });
+    nodes.forEach(n => {
+      if(n === dragNode){ n.vx = n.vy = 0; return; }
+      n.x += n.vx * scale; n.y += n.vy * scale; n.vx *= 0.84; n.vy *= 0.84;
+    });
+  }
+
+  function loop(){
+    physics(alpha);
+    alpha *= 0.95;
+    nodes.forEach(n => posById.set(n.id, { x:n.x, y:n.y }));
+    draw();
+    if(alpha > 0.02 || dragNode){ raf = requestAnimationFrame(loop); }
+    else { raf = null; alpha = 0; }
+  }
+
+  /* ---- rendering ---- */
+  function draw(){
+    if(!svg) return;
+    gZoom.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.k})`);
+    if(meta) meta.textContent = `${nodes.length} hosts · ${edges.length} links`;
+
+    if(!nodes.length){
+      gEdges.innerHTML = "";
+      gNodes.innerHTML = `<text class="topo-empty" x="${W/2}" y="${H/2}" text-anchor="middle">Add a host to see the topology</text>`;
+      return;
+    }
+    const byId = new Map(nodes.map(n => [n.id, n]));
+    let e = "";
+    edges.forEach(ed => {
+      const a = byId.get(ed.s), b = byId.get(ed.t); if(!a||!b) return;
+      const ang = Math.atan2(b.y-a.y, b.x-a.x);
+      const x1 = a.x + Math.cos(ang)*a.r, y1 = a.y + Math.sin(ang)*a.r;
+      const x2 = b.x - Math.cos(ang)*(b.r+7), y2 = b.y - Math.sin(ang)*(b.r+7);
+      const hl = (hoverId === ed.s || hoverId === ed.t);
+      e += `<line class="topo-edge${hl?' hl':''}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#${hl?'topoArrowHl':'topoArrow'})"></line>`;
+    });
+    gEdges.innerHTML = e;
+
+    let n = "";
+    nodes.forEach(nd => {
+      const h = nd.host;
+      const cves = (h.vulns || []).filter(v => String(v.cve || "").trim()).length;
+      const hov = hoverId === nd.id;
+      const label = escapeHtml(`#${h.id} ${h.hostname || ""}`.trim());
+      n += `<g class="topo-node" transform="translate(${nd.x},${nd.y})">
+        <circle class="body" r="${nd.r}" fill="url(#topoNodeFill)"
+          stroke="${hov?'#3f817b':'rgba(63,129,123,.4)'}" stroke-width="${hov?3:1.5}"></circle>
+        <text class="lbl" text-anchor="middle" y="${nd.r+14}">${label}</text>
+        ${cves>0 ? `<circle class="badge" cx="${nd.r*0.72}" cy="${-nd.r*0.72}" r="8.5"></circle>
+                    <text class="badge-t" text-anchor="middle" x="${nd.r*0.72}" y="${-nd.r*0.72+3.2}">${cves}</text>`:""}
+      </g>`;
+    });
+    gNodes.innerHTML = n;
+  }
+
+  /* ---- hit testing / interaction ---- */
+  function nodeAt(clientX, clientY){
+    const p = toGraph(clientX, clientY);
+    for(let i=nodes.length-1;i>=0;i--){
+      const nd = nodes[i];
+      if(Math.hypot(p.x-nd.x, p.y-nd.y) <= nd.r + 3) return nd;
+    }
+    return null;
+  }
+
+  function onDown(ev){
+    const nd = nodeAt(ev.clientX, ev.clientY);
+    if(nd){ dragNode = nd; reheat(); }
+    else { panning = true; last = { x: ev.clientX, y: ev.clientY }; }
+    svg.classList.add("grabbing");
+    svg.setPointerCapture && svg.setPointerCapture(ev.pointerId);
+  }
+
+  function onMove(ev){
+    if(dragNode){
+      const p = toGraph(ev.clientX, ev.clientY);
+      dragNode.x = p.x; dragNode.y = p.y;
+      posById.set(dragNode.id, { x:p.x, y:p.y });
+      moveTip(ev); reheat(); return;
+    }
+    if(panning){
+      view.x += ev.clientX - last.x; view.y += ev.clientY - last.y;
+      last = { x: ev.clientX, y: ev.clientY }; draw(); return;
+    }
+    const nd = nodeAt(ev.clientX, ev.clientY);
+    if(nd){
+      if(hoverId !== nd.id){ hoverId = nd.id; draw(); }
+      showTip(nd, ev);
+    } else if(hoverId){ hoverId = null; draw(); hideTip(); }
+  }
+
+  function onUp(ev){
+    if(dragNode){ dragNode = null; reheat(); }
+    panning = false; if(svg) svg.classList.remove("grabbing");
+  }
+
+  function onWheel(ev){
+    ev.preventDefault();
+    const r = svg.getBoundingClientRect();
+    const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
+    const gx = (sx - view.x) / view.k, gy = (sy - view.y) / view.k;
+    const factor = Math.exp(-ev.deltaY * 0.0014);
+    view.k = Math.min(3, Math.max(0.25, view.k * factor));
+    view.x = sx - gx * view.k; view.y = sy - gy * view.k;
+    draw();
+  }
+
+  function fit(animate){
+    if(!nodes.length){ view = { k:1, x:0, y:0 }; draw(); return; }
+    let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+    nodes.forEach(n => { minX=Math.min(minX,n.x-n.r); minY=Math.min(minY,n.y-n.r);
+                         maxX=Math.max(maxX,n.x+n.r); maxY=Math.max(maxY,n.y+n.r); });
+    const pad = 40, bw = (maxX-minX)+pad*2, bh = (maxY-minY)+pad*2;
+    const k = Math.min(3, Math.max(0.25, Math.min(W/bw, H/bh)));
+    view.k = k;
+    view.x = (W - (minX+maxX)*k)/2;
+    view.y = (H - (minY+maxY)*k)/2;
+    draw();
+  }
+
+  function relayout(){
+    nodes.forEach(n => posById.set(n.id, { x: W/2+(Math.random()-.5)*200, y: H/2+(Math.random()-.5)*200 }));
+    structKey = ""; fitted = false; sync();
+  }
+
+  /* ---- tooltip ---- */
+  function tipHTML(h){
+    const cves = (h.vulns || []).filter(v => String(v.cve || "").trim());
+    const rows = cves.length
+      ? cves.map(v => `<div class="row"><div class="id">${escapeHtml(v.cve)}</div><div class="vec">${escapeHtml(cvssString(v.m))}</div></div>`).join("")
+      : `<div class="meta">no CVEs defined</div>`;
+    const grp = h.group ? ` · ${escapeHtml(h.group)}` : "";
+    return `<h4>#${escapeHtml(String(h.id))} · ${escapeHtml(h.hostname || "host")}</h4>
+      <div class="meta">${escapeHtml(h.ip || "no ip")} · ${escapeHtml(h.os || "")}${grp} · ${escapeHtml(h.status || "")}</div>
+      <div class="cve-h">CVEs (${cves.length})</div>
+      <div class="cve">${rows}</div>`;
+  }
+  function showTip(nd, ev){ tip.innerHTML = tipHTML(nd.host); tip.classList.add("show"); moveTip(ev); }
+  function moveTip(ev){
+    const r = wrap.getBoundingClientRect();
+    let x = ev.clientX - r.left + 16, y = ev.clientY - r.top + 14;
+    const tw = tip.offsetWidth || 220, th = tip.offsetHeight || 120;
+    if(x + tw > r.width) x = ev.clientX - r.left - tw - 16;
+    if(y + th > r.height) y = Math.max(8, r.height - th - 8);
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  function hideTip(){ tip && tip.classList.remove("show"); }
+
+  return { init, sync, refresh, fit, relayout };
+})();
+
 /* ============================================================= boot ======= */
 function seed(){
   const a = blankHost(1); a._open = true;
@@ -673,7 +1014,7 @@ function seed(){
   b.ip = "192.168.1.20"; b.vulns=[{_u:nextUid(),cve:"CVE-2024-21851",m:{AV:"L",AC:"L",PR:"L",UI:"N",S:"U",C:"H",I:"H",A:"H"}}];
   state.hosts=[a,b]; state.connections=[{source:1,destination:2}];
 }
-seed(); render(); checkServer();
+Topo.init(); seed(); render(); checkServer();
 </script>
 </body>
 </html>

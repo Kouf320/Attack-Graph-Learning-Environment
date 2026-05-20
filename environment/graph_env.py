@@ -11,7 +11,7 @@ import sqlite3
 from torch_geometric.utils import from_networkx
 import numpy as np
 from collections import deque, defaultdict
-from utils.alert_generator import AlertGenerator
+from utils.alert_adapter import GraphAlertAdapter
 from utils.colors import BColors
 import re
 import logging
@@ -48,11 +48,26 @@ class GraphEnvironment:
         self.NVD_KEY = env_config['NVD_KEY']
         self.DATABASE_PATH = env_config['DATABASE_PATH']
 
+        # --- alert-generator configuration (optional config.json block) ------
+        # Backward-compatible: if the "alert_generator" block is absent, these
+        # defaults reproduce the previous hard-coded behaviour exactly.
+        alert_config = config.get('alert_generator', {}) if isinstance(config, dict) else {}
+        self._alert_fp_rate = float(alert_config.get('false_positive_rate', 0.10))
+        _gen_kwargs_defaults = {
+            "step_duration": 1.0,
+            "hawkes_mu": 0.3,
+            "hawkes_alpha": 1.2,
+            "hawkes_beta": 1.5,
+        }
+        _gen_kwargs_defaults.update(alert_config.get('generator_kwargs', {}) or {})
+        self._alert_generator_kwargs = _gen_kwargs_defaults
+        # ---------------------------------------------------------------------
+
         self.defensive_action_history = []
         self.removed_edges = []
 
         self.json_graph = graph_json
-        self.alert_gen = AlertGenerator()
+        # alert generation is handled by self.alert_adapter (built below)
 
         self.ip_context = defaultdict(lambda: {
             'sum_severities': 0.0,
@@ -114,7 +129,7 @@ class GraphEnvironment:
         self.current_alert = ""
 
         self.noise_prob = 0.00
-        self.random_noise_rate = 0.10
+        self.random_noise_rate = self._alert_fp_rate
         
         self.realistic_alerts = 1
         self.last_host_ip = "13.12.4.20"
@@ -132,6 +147,19 @@ class GraphEnvironment:
         self.current_host = 0
         self.previous_host = -1
 
+
+        # --- four-layer alert pipeline (replaces the old AlertGenerator) ---
+        # Hawkes/Poisson/periodic/burst timing + Zipf-concentrated FP noise +
+        # per-traversal stochastic detection. Built once; reseeds its
+        # noisy-host subset on each reset_episode() so within-episode noise
+        # is consistent but varies across episodes. The FP rate mirrors
+        # self.random_noise_rate (the single FP knob to expose to training).
+        self.alert_adapter = GraphAlertAdapter(
+            env=self,
+            false_positive_rate=getattr(self, 'random_noise_rate', 0.10),
+            seed=42,
+            generator_kwargs=self._alert_generator_kwargs,
+        )
 
         self.curriculum_map = {}
         
@@ -271,6 +299,8 @@ class GraphEnvironment:
         return np.array(risk_state, dtype=np.float32)
 
     def reset(self):
+        if hasattr(self, 'alert_adapter'):
+            self.alert_adapter.reset_episode()
         self.current_host = 0
         self.previous_host = -1
         self.total_alert_count = 0
@@ -293,6 +323,8 @@ class GraphEnvironment:
         return self.current_node
 
     def random_reset(self):
+        if hasattr(self, 'alert_adapter'):
+            self.alert_adapter.reset_episode()
         self.current_host = 0
         self.previous_host = -1
         self.total_alert_count = 0
@@ -320,6 +352,8 @@ class GraphEnvironment:
         return self.current_node
     
     def reset_curriculum(self, episode_num):
+        if hasattr(self, 'alert_adapter'):
+            self.alert_adapter.reset_episode()
         candidates = []
         self.total_alert_count = 0
         
@@ -383,6 +417,8 @@ class GraphEnvironment:
         return self.current_node
     
     def reset_recon(self, episode):
+        if hasattr(self, 'alert_adapter'):
+            self.alert_adapter.reset_episode()
 
             
         self.ip_context = defaultdict(lambda: {
@@ -461,6 +497,16 @@ class GraphEnvironment:
         return self.current_node
     
 
+    def set_false_positive_rate(self, rate: float) -> None:
+        """Change the false-positive rate live; mirrors it to the alert
+        adapter so the Layer-4 noisy-host subset is re-derived. Call from
+        the training loop / curriculum to sweep the FP rate."""
+        if not (0.0 <= rate <= 1.0):
+            raise ValueError(f"false_positive_rate must be in [0, 1], got {rate}.")
+        self.random_noise_rate = float(rate)
+        if hasattr(self, 'alert_adapter'):
+            self.alert_adapter.set_false_positive_rate(rate)
+
     def step(self, action):
         next_node = action
         curr_idx = self.node_to_idx.get(self.current_node)
@@ -509,100 +555,38 @@ class GraphEnvironment:
         base_sev = current_node_data.get('base_severity', 4)
         alert_type = current_node_data.get('alert_type', 'unknown')
 
-        range_num = 1
-        if self.realistic_alerts == 1: 
-            if self.flag_alert == 0:
-                self.flag_alert = 1
-                range_num = 1       
-            else:
-                range_num = random.randint(self.volume-self.offset_a, self.volume+self.offset_a)
-
+        # --- 4. ALERT GENERATION (four-layer pipeline via adapter) ---
+        # One call replaces the previous manual recon/local/network branching.
+        # The adapter picks the node's Exploit, draws the cluster (Layer 1),
+        # timestamps it (Layer 2), thins by P_detect drawn FRESH per traversal
+        # (Layer 3) and adds Zipf-concentrated false positives (Layer 4). The
+        # returned list-of-dicts uses the exact Suricata schema the code below
+        # already parses, so the rest of step() is unchanged.
         match_dest = re.search(ip_pattern, current_node_name)
         dest_ip_for_alert = match_dest.group() if match_dest else source_ip_for_alert
 
-        
         self.previous_host = source_ip_for_alert
         self.current_host = dest_ip_for_alert
 
+        self.current_alert_group, tp_group, fp_group = \
+            self.alert_adapter.generate_for_transition(
+                prev_node=self.previous_node,
+                curr_node=self.current_node,
+                src_ip=source_ip_for_alert,
+                dst_ip=dest_ip_for_alert,
+                step_index=self._current_step,
+            )
 
-        random_triggers = []
+        # backward-compat: some code reads self.current_alert (a single dict)
+        if self.current_alert_group:
+            self.current_alert = self.current_alert_group[0]
 
-        for n in self.graph.nodes:
-            n_name = self.graph.nodes[n].get('name', '')
-            ip_match = re.search(ip_pattern, n_name)
-            if ip_match:
-                random_triggers.append(ip_match.group())
-        
-        target_count = int(len(random_triggers) * self.random_noise_rate)
-
-        if random_triggers and target_count > 0:
-            targets = random.sample(random_triggers, min(target_count, len(random_triggers)))
-            for target_ip in targets:
-                alert = self.alert_gen.generate_alert_recon(
-                    source_ip_for_alert, random.randint(1024, 65535), 
-                    target_ip, 80, 
-                    severity=base_sev
-                )
-                self.current_alert_group.append(alert)
-
-        for item in range(1, range_num):
-            
-            if random.random() < base_prob:
-
-                if alert_type == 'recon':
-                    neighbors = list(self.graph.neighbors(self.current_node))
-                    
-                    connected_ips = []
-                    for n in neighbors:
-                        n_name = self.graph.nodes[n].get('name', '')
-                        ip_match = re.search(ip_pattern, n_name)
-                        if ip_match:
-                            connected_ips.append(ip_match.group())
-                    
-                    target_count = max(1, int(len(connected_ips) * 0.05))
-                    
-                    if connected_ips:
-                        targets = random.sample(connected_ips, min(target_count, len(connected_ips)))
-                        for target_ip in targets:
-                            alert = self.alert_gen.generate_alert_recon(
-                                source_ip_for_alert, random.randint(1024, 65535), 
-                                target_ip, 80, 
-                                severity=base_sev
-                            )
-                            self.current_alert_group.append(alert)
-                    else:
-                        alert = self.alert_gen.generate_alert_recon(
-                            source_ip_for_alert, random.randint(1024, 65535), 
-                            dest_ip_for_alert, 80, 
-                            severity=base_sev
-                        )
-                        self.current_alert_group.append(alert)
-
-                elif alert_type == 'local':
-                    self.current_alert = self.alert_gen.generate_alert_local(
-                        dest_ip_for_alert, random.randint(1024, 65535), 
-                        dest_ip_for_alert, random.randint(1024, 65535),
-                        severity=base_sev
-                    )
-                    self.current_alert_group.append(self.current_alert)
-
-                elif alert_type == 'network':
-                    if "CVE" in current_node_name:
-                        edge_data = self.graph[self.previous_node][self.current_node]
-                        cvss_based_value = edge_data.get('distance', -1)
-                        if cvss_based_value > 8: base_sev = 5
-                        elif cvss_based_value > 6: base_sev = 4
-                    
-                    self.current_alert = self.alert_gen.generate_alert_network(
-                        source_ip_for_alert, random.randint(1024, 65535), 
-                        dest_ip_for_alert, 445,
-                        severity=base_sev
-                    )
-                    self.current_alert_group.append(self.current_alert)
-
-            if random.random() < self.noise_prob:
-                noise = self.alert_gen.generate_alert_noise()
-                self.current_alert_group.append(noise)
+        # diagnostic: attacker advanced but the IDS saw nothing (stealth/APT)
+        if tp_group is not None and tp_group.was_fully_thinned:
+            logging.info(
+                f"Step {self._current_step}: traversed {self.previous_node} -> "
+                f"{self.current_node} ({tp_group.exploit_name}) but IDS produced "
+                f"0 alerts (raw cluster {tp_group.raw_cluster_size}).")
 
         for node in self.graph.nodes():
             if self.graph.nodes[node].get('status') != 'Compromised':

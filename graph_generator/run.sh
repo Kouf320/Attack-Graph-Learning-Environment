@@ -18,7 +18,7 @@ PYTHON="${PYTHON:-python3}"
 
 # Friendly dependency check (does not auto-install — your call).
 "${PYTHON}" - <<'PY'
-import importlib, sys
+import importlib.util, sys  # importlib.util must be imported explicitly
 missing = [m for m in ("flask", "python_jsonschema_objects")
            if importlib.util.find_spec(m) is None]
 if missing:

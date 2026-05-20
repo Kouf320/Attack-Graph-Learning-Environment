@@ -17,6 +17,7 @@ This tutorial walks you from installation through training and evaluating both a
 8. [Evaluating Defenders Across Graph Variants](#8-evaluating-defenders-across-graph-variants)
 9. [Baselines](#9-baselines)
 10. [Key Concepts and Maths](#10-key-concepts-and-maths)
+11. [Configuring Alerts & the False-Positive Rate](#11-configuring-alerts--the-false-positive-rate)
 
 ---
 
@@ -692,3 +693,106 @@ L(θ) = L^{ACTOR} + c₁·L^{CRITIC} − c₂·L^{ENT}
 ```
 
 Entropy regularisation with coefficient c₂ = 0.01 prevents premature policy collapse to deterministic strategies.
+
+---
+
+## 11. Configuring Alerts & the False-Positive Rate
+
+The defender's observations are driven by a **four-layer IDS alert generator**
+(clustering → per-exploit timing → stochastic detection → concentrated false
+positives). It is built automatically inside `GraphEnvironment` — you don't wire
+anything up — and it is configured from an optional `alert_generator` block in
+`config.json`. This section covers the common configuration tasks; the full
+reference (the maths of each layer, every knob, archetypes, ablations) lives in
+[docs/ALERT_GENERATION.md](docs/ALERT_GENERATION.md).
+
+### Setting the false-positive rate
+
+The false-positive rate is the first-class knob. There are three entry points.
+
+**1. Permanent default — `config.json`:**
+
+```json
+"alert_generator": {
+  "false_positive_rate": 0.30
+}
+```
+
+The rate is the fraction of hosts that are false-positive targets; the expected
+number of FP alerts per step is `false_positive_rate · fp_volume_scale · H`,
+where `H` is the host count. If the block is omitted entirely the default is
+`0.10`, reproducing the original behaviour.
+
+**2. Live, on an existing env** (re-derives the noisy-host subset immediately):
+
+```python
+env.set_false_positive_rate(0.30)
+```
+
+**3. Per-episode sweep from a training loop** (e.g. a noise curriculum):
+
+```python
+for ep in range(num_episodes):
+    env.set_false_positive_rate(min(0.05 + ep * 1e-4, 0.5))
+    obs = env.reset()      # every reset path re-seeds the generator for the episode
+    ...
+```
+
+Each `reset*()` already calls `adapter.reset_episode()`, which clears the Hawkes
+carry-over history and re-draws the chronically-noisy host subset — so noise
+identity is **fixed within an episode but varies across episodes**, and the agent
+cannot memorise which hosts are noisy.
+
+### Configuring the rest of the pipeline
+
+Everything under `generator_kwargs` is forwarded to the generator. The full
+default block:
+
+```json
+"alert_generator": {
+  "false_positive_rate": 0.10,
+  "generator_kwargs": {
+    "step_duration": 1.0,
+    "hawkes_mu": 0.3,
+    "hawkes_alpha": 1.2,
+    "hawkes_beta": 1.5,
+    "fp_volume_scale": 1.0,
+    "fp_concentration": 0.65,
+    "fp_zipf_exponent": 1.0,
+    "fp_noisy_fraction": 0.3,
+    "enable_clustering": true,
+    "enable_timing": true,
+    "enable_thinning": true,
+    "enable_fp_concentration": true
+  }
+}
+```
+
+Common adjustments:
+
+- **Burstier scan/worm activity** — raise the Hawkes branching ratio `n = α/β`
+  (keep it `< 1`): increase `hawkes_alpha` or decrease `hawkes_beta`.
+- **More/less FP volume without changing the rate** — `fp_volume_scale`.
+- **How concentrated the noise is** — `fp_concentration` (probability an FP lands
+  on the noisy subset) and `fp_zipf_exponent` (skew within it; higher ⇒ a few
+  hosts dominate).
+- **Ablations** — flip any `enable_*` flag off to isolate that layer's
+  contribution (e.g. `enable_thinning: false` makes detection deterministic).
+
+### Inspecting it at runtime
+
+```python
+env.alert_adapter.detection_probability(node_id)   # P_detect for a node
+env.alert_adapter.noisy_hosts()                    # this episode's noisy subset
+env.alert_adapter.catalogue[node_id]               # the Exploit mapped to a node
+```
+
+### What changed vs. the previous generator
+
+Severity now genuinely varies 1–5 (so `z_score` / `entropy` features carry real
+signal), detection is stochastic per traversal (the same node alerts on some
+visits, not others), and stealthy exploits often produce zero alerts. Because of
+this, **checkpoints trained against the old generator will not transfer cleanly —
+retrain.** `get_valid_action_mask()` already falls back to Do-Nothing when a step
+produces no alerts; just ensure your reward model does not penalise that forced
+Do-Nothing as a failure.

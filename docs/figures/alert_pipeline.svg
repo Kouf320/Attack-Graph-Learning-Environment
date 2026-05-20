@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b6b7a"/>
+    </marker>
+    <style>
+      .box{stroke-width:1.5;rx:10;}
+      .ttl{font-size:15px;font-weight:600;fill:#1f2a36;}
+      .sub{font-size:11.5px;fill:#445;}
+      .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;fill:#2b6b66;}
+      .lyr{font-size:11px;font-weight:700;letter-spacing:.06em;}
+      .cap{font-size:12.5px;fill:#5b6b7a;}
+      .hdr{font-size:19px;font-weight:700;fill:#1f2a36;}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="470" fill="#ffffff"/>
+  <text x="32" y="40" class="hdr">Four-layer IDS alert-stream pipeline</text>
+  <text x="32" y="62" class="cap">one attacker traversal &#8594; a cluster of correlated, stochastically-detected alerts, plus a concentrated false-positive bundle</text>
+
+  <!-- input -->
+  <rect x="32" y="92" width="150" height="80" rx="10" fill="#eef2f6" stroke="#c4d0db" class="box"/>
+  <text x="107" y="124" text-anchor="middle" class="ttl">Traversal</text>
+  <text x="107" y="144" text-anchor="middle" class="sub">u &#8594; v on node v</text>
+  <text x="107" y="160" text-anchor="middle" class="sub">(Exploit from catalogue)</text>
+
+  <!-- Layer 1 -->
+  <rect x="206" y="92" width="166" height="80" rx="10" fill="#e7f4f2" stroke="#7fc2bb" class="box"/>
+  <text x="217" y="110" class="lyr" fill="#2f8079">LAYER 1</text>
+  <text x="289" y="130" text-anchor="middle" class="ttl">Clustering</text>
+  <text x="289" y="150" text-anchor="middle" class="mono">size ~ &#8968;LogN(&#956;,&#963;)&#8969;</text>
+  <text x="289" y="165" text-anchor="middle" class="sub">metadata axis</text>
+
+  <!-- Layer 2 -->
+  <rect x="396" y="92" width="166" height="80" rx="10" fill="#eef0fb" stroke="#9aa2dd" class="box"/>
+  <text x="407" y="110" class="lyr" fill="#5a61bf">LAYER 2</text>
+  <text x="479" y="130" text-anchor="middle" class="ttl">Timing</text>
+  <text x="479" y="150" text-anchor="middle" class="mono">Hawkes / Poisson</text>
+  <text x="479" y="165" text-anchor="middle" class="mono">/ periodic / burst</text>
+
+  <!-- Layer 3 -->
+  <rect x="586" y="92" width="166" height="80" rx="10" fill="#fbeef3" stroke="#dd9ab4" class="box"/>
+  <text x="597" y="110" class="lyr" fill="#bf5a85">LAYER 3</text>
+  <text x="669" y="130" text-anchor="middle" class="ttl">Detection</text>
+  <text x="669" y="150" text-anchor="middle" class="mono">Binom(n, P_detect)</text>
+  <text x="669" y="165" text-anchor="middle" class="sub">fresh per traversal</text>
+
+  <!-- merge -->
+  <rect x="776" y="92" width="150" height="80" rx="10" fill="#eef2f6" stroke="#c4d0db" class="box"/>
+  <text x="851" y="124" text-anchor="middle" class="ttl">Suricata</text>
+  <text x="851" y="144" text-anchor="middle" class="ttl">alert dicts</text>
+  <text x="851" y="160" text-anchor="middle" class="sub">&#8594; GraphEnvironment</text>
+
+  <!-- top-row arrows -->
+  <line x1="182" y1="132" x2="204" y2="132" stroke="#5b6b7a" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="372" y1="132" x2="394" y2="132" stroke="#5b6b7a" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="562" y1="132" x2="584" y2="132" stroke="#5b6b7a" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="752" y1="132" x2="774" y2="132" stroke="#5b6b7a" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <!-- Layer 4 -->
+  <rect x="396" y="250" width="356" height="92" rx="10" fill="#fbf6ea" stroke="#d8c48a" stroke-width="1.5"/>
+  <text x="407" y="270" class="lyr" fill="#a9842f">LAYER 4</text>
+  <text x="574" y="290" text-anchor="middle" class="ttl">False-positive mixture (spatial axis)</text>
+  <text x="574" y="312" text-anchor="middle" class="mono">count ~ NegBinom(mean = fpr &#183; scale &#183; H)</text>
+  <text x="574" y="330" text-anchor="middle" class="sub">Zipf-weighted onto a fixed "noisy host" subset &#8594; operational Gini &#8776; 0.7</text>
+
+  <!-- Layer 4 arrow up into merge -->
+  <path d="M752 296 C 835 296, 851 250, 851 174" fill="none" stroke="#a9842f" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+  <text x="812" y="232" class="sub" fill="#a9842f">benign noise</text>
+
+  <!-- knobs caption -->
+  <rect x="32" y="250" width="332" height="92" rx="10" fill="#f6f8fa" stroke="#dde4ea" stroke-width="1.2"/>
+  <text x="48" y="272" class="ttl" font-size="13">Key knobs (config.json &#8594; alert_generator)</text>
+  <text x="48" y="294" class="mono">false_positive_rate &#183; fp_concentration</text>
+  <text x="48" y="311" class="mono">hawkes_alpha/beta &#183; fp_zipf_exponent</text>
+  <text x="48" y="328" class="mono">enable_clustering/timing/thinning/fp_*</text>
+
+  <text x="32" y="400" class="cap">Each layer is independently toggleable for ablations. Detection is drawn per traversal, so the same node alerts</text>
+  <text x="32" y="420" class="cap">sometimes and not others &#8212; the agent cannot memorise a per-node alert table.</text>
+</svg>

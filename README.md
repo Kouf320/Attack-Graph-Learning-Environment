@@ -39,7 +39,9 @@ rl-network-defense/
 │   └── attacker_reward.py    # DefaultRewardModel — CVSS-based attacker utility
 │
 ├── utils/
-│   ├── alert_generator.py    # Suricata-format synthetic alert generator
+│   ├── alert_generator.py    # Four-layer realistic IDS alert-stream generator
+│   ├── exploit_catalogue.py  # Builds {node_id: Exploit} from a populated env
+│   ├── alert_adapter.py      # Bridges the generator to GraphEnvironment (Suricata dicts)
 │   ├── colors.py             # Terminal colour helpers
 │   ├── metrics.py            # StreamingEntropy, bin_risk_score
 │   └── helpers.py            # RunningMeanStd, update_attack_path_with_uncertainty
@@ -137,6 +139,37 @@ until convergence with tolerance ε = 1e-6.
 | 1 | Mask all outgoing edges from target node |
 | 2 | Mask target CVE node |
 | 3 | Restore Connection | Unmask last removed edge |
+
+### Alert Generation
+
+The defender observes a synthetic IDS alert stream produced by a **four-layer
+generative model** (`utils/alert_generator.py`). Each attacker traversal emits a
+cluster of correlated, stochastically-detected alerts for the landed node, plus a
+bundle of benign false positives concentrated on a small set of chronically noisy
+hosts:
+
+![Four-layer alert pipeline](docs/figures/alert_pipeline.svg)
+
+1. **Clustering** — one exploit emits `ceil(LogNormal(μ, σ))` correlated alerts, not a single token.
+2. **Timing** — each exploit names its own temporal model (Hawkes / Poisson / periodic / burst), so port scans look bursty, beacons look periodic, and single-shot RCEs look like one clump.
+3. **Detection thinning** — each alert survives with `P_detect = σ(β₀ + β_av·av + β_ac·ac + β_auth·auth + β_stealth·stealth)`, drawn **fresh per traversal** so the same node alerts on some visits and is silent on others.
+4. **False-positive mixture** — benign alerts are Zipf-concentrated on a fixed-per-episode noisy-host subset, reproducing the operational SOC regime (Gini ≈ 0.7).
+
+This is what makes the `z_score`, `entropy` and alert-volume observation features
+carry real signal. The whole pipeline is configured from the optional
+`alert_generator` block in `config.json`; the false-positive rate is the
+first-class knob:
+
+```python
+env.set_false_positive_rate(0.30)   # live; re-derives the noisy-host subset
+```
+
+```json
+"alert_generator": { "false_positive_rate": 0.30 }
+```
+
+See **[docs/ALERT_GENERATION.md](docs/ALERT_GENERATION.md)** for the full
+reference (every knob, the maths of each layer, archetypes, ablation toggles).
 
 ### Gymnasium Wrappers
 
