@@ -78,11 +78,6 @@ rl-network-defense/
 │   └── defender/             # Saved defender checkpoints (.pth)
 │
 ├── logs/
-├── config.json
-├── requirements.txt
-└── .gitignore
-```
-
 ## Environment
 
 ### GraphEnvironment
