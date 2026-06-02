@@ -13,71 +13,7 @@ The environment is fully compatible with the **Gymnasium** interface (`gym.Env`)
 
 **Goal nodes are configurable**: pass any node ID when constructing the environment, or let it auto-detect the deepest `Access` metaconcept node.
 
-## Project Structure
 
-```
-rl-network-defense/
-├── environment/
-│   ├── graph_env.py          # GraphEnvironment — core MDP with CVSS-weighted graph
-│   └── gym_env.py            # Gymnasium wrappers: NetworkAttackEnv, NetworkDefenderEnv
-│
-├── agents/
-│   ├── attacker/
-│   │   ├── dqn_network.py    # DQN and DQN_Def network architectures
-│   │   └── random_attacker.py
-│   ├── defender/
-│   │   ├── ac_defender.py    # GAT Actor-Critic defender
-│   │   └── dqn_defender.py   # GAT DQN defender
-│   └── baselines/
-│       ├── random_defender.py
-│       └── rule_based_defender.py
-│
-├── memory/
-│   └── replay_buffer.py      # ReplayMemory and ReplayBuffer (experience replay)
-│
-├── rewards/
-│   └── attacker_reward.py    # DefaultRewardModel — CVSS-based attacker utility
-│
-├── utils/
-│   ├── alert_generator.py    # Four-layer realistic IDS alert-stream generator
-│   ├── exploit_catalogue.py  # Builds {node_id: Exploit} from a populated env
-│   ├── alert_adapter.py      # Bridges the generator to GraphEnvironment (Suricata dicts)
-│   ├── colors.py             # Terminal colour helpers
-│   ├── metrics.py            # StreamingEntropy, bin_risk_score
-│   └── helpers.py            # RunningMeanStd, update_attack_path_with_uncertainty
-│
-├── attack_graphs/
-│   ├── ag.json               # Main training attack graph
-│   └── variants/             # 1000 generated attack graph variants for zero-shot eval
-│       ├── generation_log.json
-│       └── variation_XXXX.json
-│
-├── scripts/
-│   ├── train_attacker.py     # Train DQN attacker on attack graph
-│   ├── train_defender.py     # Train AC or DQN defender (--agent ac|dqn)
-│   ├── evaluate_attacker.py  # Run greedy attacker evaluation
-│   └── evaluate_defenders.py # Cross-graph zero-shot defender evaluation
-│
-├── graph_generator/             # Topology → attack-graph authoring tool (self-contained)
-│   ├── violence_generator.py    # ViolenceLang generator: topology → RL-ready graph (module + CLI)
-│   ├── rl_bridge.py             # topology → GraphEnvironment / Gym env; CVE-vs-DB validation
-│   ├── app.py                   # Flask backend for the web Topology Builder
-│   ├── cvss_utils.py            # CVSS v3.1 vector parsing/validation
-│   ├── _bootstrap.py            # Wires the vendored mal-toolbox onto sys.path
-│   ├── run.sh                   # Launch the web app (http://127.0.0.1:5000)
-│   ├── web/index.html           # Single-page Topology Builder UI
-│   ├── lang/                    # Bundled ViolenceLang .mar specification
-│   ├── topologies/              # Saved topology specification files
-│   └── vendor/maltoolbox/       # Vendored mal-toolbox 0.0.21 (no pip install needed)
-│
-├── database/
-│   └── vulnerability-remediation-database.db  # Local NVD CVSSv3 SQLite cache
-│
-├── policy-models/
-│   ├── attacker/             # Saved attacker checkpoints (.pth)
-│   └── defender/             # Saved defender checkpoints (.pth)
-│
-├── logs/
 ## Environment
 
 ### GraphEnvironment
